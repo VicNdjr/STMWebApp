@@ -21,12 +21,10 @@ body {
     list-style: none;
     overflow-y: auto;
     height: 100px;
-}
-
-.menu a{
     display: block;
 }
-.menu li:hover .submenu{
+
+.menu li:active .submenu{
     display: block;
 }
 
