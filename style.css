@@ -1,4 +1,16 @@
 body {
     width: 1000px;
-    background-color: powderblue;
+}
+
+.header {
+    height: 300px;
+}
+
+.logo {
+    width: 200px;
+}
+
+.banniere {
+    width: 600px;
+    float: right;
 }
