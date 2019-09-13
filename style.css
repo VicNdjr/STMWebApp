@@ -8,6 +8,8 @@ body {
 
 .logo {
     width: 200px;
+    float: left;
+    padding-top: 50px;
 }
 
 .banniere {
