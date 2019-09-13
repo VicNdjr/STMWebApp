@@ -16,3 +16,20 @@ body {
     width: 600px;
     float: right;
 }
+
+.menu {
+    list-style: none;
+    overflow-y: auto;
+    height: 100px;
+}
+
+.menu a{
+    display: block;
+}
+.menu li:hover .submenu{
+    display: block;
+}
+
+.submenu {
+    display: none;
+}
