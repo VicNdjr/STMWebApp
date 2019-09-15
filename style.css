@@ -16,3 +16,35 @@ body {
     width: 600px;
     float: right;
 }
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+}
+th,td{
+    border: 1px solid black;
+}
+
+thead{
+    font-weight : bolder;
+    display: block;
+}
+
+tbody {
+    height: 100px;
+    overflow: auto;
+    display: block;
+}
+
+.arret{
+    width: 200px;
+}
+.code{
+    width: 50px;
+}
+.horaire{
+    width: 100px;
+}
+.fav{
+    width: 100px;
+}
