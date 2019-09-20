@@ -21,3 +21,75 @@ body {
     float: right;
 }
 
+#tableau{
+    width: 50%;
+    margin-left: 50%;
+}
+
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th,td{
+    border: 1px solid black;
+}
+
+thead{
+    font-weight : bolder;
+    display: block;
+}
+
+tbody {
+    height: 100px;
+    overflow: auto;
+    display: block;
+}
+
+.arret{
+    width: 200px;
+}
+.code{
+    width: 50px;
+}
+.horaire{
+    width: 100px;
+}
+.fav{
+    width: 100px;
+}
+
+#menu-nav {
+    overflow-y: auto;
+    display: block;
+    width: 50%;
+    float: left;
+    height: 100px;
+}
+
+.menu, .submenu{
+    list-style: none;
+}
+
+#menu-nav ul li ul{
+    display:none;
+}
+
+#menu-nav ul li:focus .submenu{
+    display: block;
+}
+
+li[tabindex]>a {
+    pointer-events:none;
+}
+
+li:focus {
+    pointer-events:none;
+}
+
+li:focus .submenu li a{
+    pointer-events:auto;
+}
+
+.coordonnees{
+    text-align: center;
+}
