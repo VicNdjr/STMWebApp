@@ -7,7 +7,7 @@
     <script type="text/javascript" src="lines.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
-<body>
+<body onload="displaylines()">
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
     <img src="banniere1.png" alt="Image not found" class="banniere">
@@ -18,39 +18,27 @@
     <nav id="menu-nav">
         <ul class="menu">
             <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="allLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau local</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="localLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau de nuit</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="nightLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau express</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="expressLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id ="shuttleLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes Or</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id = "shuttleOrLines">
                 </ul>
             </li>
         </ul>
