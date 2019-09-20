@@ -16,10 +16,15 @@ body {
     width: 600px;
     float: right;
 }
+
+#tableau{
+    width: 50%;
+    margin-left: 50%;
+}
+
 table{
     border: 1px solid black;
     border-collapse: collapse;
-    float: right;
 }
 th,td{
     border: 1px solid black;
@@ -49,18 +54,23 @@ tbody {
     width: 100px;
 }
 
-#menu {
-    list-style: none;
+#menu-nav {
     overflow-y: auto;
-    height: 100px;
     display: block;
+    width: 50%;
+    float: left;
+    height: 100px;
 }
 
-#menu ul li ul{
+.menu, .submenu{
+    list-style: none;
+}
+
+#menu-nav ul li ul{
     display:none;
 }
 
-#menu ul li:focus .submenu{
+#menu-nav ul li:focus .submenu{
     display: block;
 }
 
@@ -74,4 +84,8 @@ li:focus {
 
 li:focus .submenu li a{
     pointer-events:auto;
+}
+
+.coordonnees{
+    text-align: center;
 }
