@@ -48,3 +48,30 @@ tbody {
 .fav{
     width: 100px;
 }
+
+#menu {
+    list-style: none;
+    overflow-y: auto;
+    height: 100px;
+    display: block;
+}
+
+#menu ul li ul{
+    display:none;
+}
+
+#menu ul li:focus .submenu{
+    display: block;
+}
+
+li[tabindex]>a {
+    pointer-events:none;
+}
+
+li:focus {
+    pointer-events:none;
+}
+
+li:focus .submenu li a{
+    pointer-events:auto;
+}
