@@ -4,60 +4,208 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css"/>
     <title>Title</title>
+    <script type="text/javascript" src="lines.json.js"></script>
+    <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
-<body>
+<body onload="displaylines()">
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
     <img src="banniere1.png" alt="Image not found" class="banniere">
 </div>
 
-<div>
-    Informations
-
-<nav>
-    <ul class="menu">
-        <li>Toutes les lignes
-        <ul class="submenu">
-            <li>1</li>
-            <li>2</li>
+<div class="infos">
+    <span>Nom de la ligne choisie</span>
+    <nav id="menu-nav">
+        <ul class="menu">
+            <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
+                <ul class="submenu" id="allLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#" title="#">Réseau local</a>
+                <ul class="submenu" id="localLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#" title="#">Réseau de nuit</a>
+                <ul class="submenu" id="nightLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#" title="#">Réseau express</a>
+                <ul class="submenu" id="expressLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#" title="#">Navettes</a>
+                <ul class="submenu" id ="shuttleLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#" title="#">Navettes Or</a>
+                <ul class="submenu" id = "shuttleOrLines">
+                </ul>
+            </li>
         </ul>
-        </li>
-        <li> Réseau local
-            <ul class="submenu">
-                <li>1</li>
-                <li>2</li>
-            </ul>
-        </li>
-        <li> Réseau de nuit
-            <ul class="submenu">
-                <li>1</li>
-                <li>2</li>
-            </ul>
-        </li>
-        <li> Réseau express
-            <ul class="submenu">
-                <li>1</li>
-                <li>2</li>
-            </ul>
-        </li>
-        <li> Navettes
-            <ul class="submenu">
-                <li>1</li>
-                <li>2</li>
-            </ul>
-        </li>
-        <li> Navettes Or
-            <ul class="submenu">
-                <li>1</li>
-                <li>2</li>
-            </ul>
-        </li>
-    </ul>
-</nav>
-</div>
+    </nav>
 
-<div>
-    Coordonnées
+    <div id="tableau">
+        <table>
+            <thead>
+                <td class="arret">Arrêt</td>
+                <td class="code">Code</td>
+                <td class="horaire">Horaire</td>
+                <td class="fav">Favoris</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="arret">Arrêt 1</td>
+                    <td class="code">1</td>
+                    <td class="horaire">11:00</td>
+                    <td class="fav">+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 1</td>
+                    <td>1</td>
+                    <td>11:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 1</td>
+                    <td>1</td>
+                    <td>11:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 1</td>
+                    <td>1</td>
+                    <td>11:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 1</td>
+                    <td>1</td>
+                    <td>11:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 1</td>
+                    <td>1</td>
+                    <td>11:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 2</td>
+                    <td>2</td>
+                    <td>12:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 3</td>
+                    <td>3</td>
+                    <td>13:00</td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>Arrêt 4</td>
+                    <td>4</td>
+                    <td>14:00</td>
+                    <td>+</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
+
+<footer>
+    <div class="coordonnees">
+        <h1>Coordonnées</h1>
+    </div>
+</footer>
 </html>
