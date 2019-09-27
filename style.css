@@ -6,6 +6,10 @@ body {
     height: 300px;
 }
 
+.footer {
+    float: bottom;
+}
+
 .logo {
     width: 200px;
     float: left;
