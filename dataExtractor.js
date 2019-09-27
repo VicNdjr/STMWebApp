@@ -1,34 +1,38 @@
 
 function displaylines() {
     for (var i = 0; i < lines.length; i ++) {
-        document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' + lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+        document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
             lines[i].direction + ')' + '</li>';
 
         if (lines[i].category === 'local'){
-            document.getElementById("localLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+            document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
         }
 
         else if (lines[i].category === 'night'){
-            document.getElementById("nightLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+            document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
         }
         else if (lines[i].category === 'express'){
-            document.getElementById("expressLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+            document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
         }
 
         else if (lines[i].category === 'dedicated'){
-            document.getElementById("shuttleLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+            document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
         }
 
         else if (lines[i].category === 'shuttleOr'){
-            document.getElementById("shuttleOrLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+            document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
         }
-
-        console.log(lines[i].category);
     }
 
 
