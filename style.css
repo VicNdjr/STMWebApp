@@ -21,27 +21,28 @@ body {
     float: right;
 }
 
-#stops-tab{
+#stops-tab {
     width: 50%;
     margin-left: 50%;
 }
 
-#times-tab{
+#times-tab {
     width: 50%;
     margin-left: 50%;
     padding-top: 20px;
     display: none;
 }
 
-#times-tab table, #times-tab thead td, .test{
+#times-tab table, #times-tab thead td, .test {
     width: 350px;
 }
 
-#times-tab table{
+#times-tab table {
     height: 130px;
 }
+
 /*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
-#times-tab:target{
+#times-tab:target {
     display: block;
 }
 
@@ -52,21 +53,21 @@ body {
 }
 
 /*ferme le tableau des passages lorsque l'on clique sur la croix*/
-#cross:target{
+#cross:target {
     display: none;
 }
 
-table{
+table {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-th,td{
+th, td {
     border: 1px solid black;
 }
 
-thead{
-    font-weight : bolder;
+thead {
+    font-weight: bolder;
     display: block;
 }
 
@@ -76,16 +77,19 @@ tbody {
     display: block;
 }
 
-.stop{
+.stop {
     width: 200px;
 }
-.code{
+
+.code {
     width: 50px;
 }
-.time{
+
+.time {
     width: 100px;
 }
-.fav{
+
+.fav {
     width: 100px;
 }
 
@@ -107,15 +111,15 @@ tbody {
     list-style: none;
 }
 
-.submenu li{
+.submenu li {
     font-size: 20px;
     text-align: left;
     list-style: none;
     border: none;
 }
 
-.submenu{
-    display:none;
+.submenu {
+    display: none;
 }
 
 .menu li:focus {
@@ -123,13 +127,13 @@ tbody {
 }
 
 /*ouvre le sous-menu au premier clic*/
-.menu li:focus .submenu{
+.menu li:focus .submenu {
     display: block;
     background-color: white;
     border-top: 1px solid black;
 }
 
-.menu li:focus .submenu li{
+.menu li:focus .submenu li {
     background-color: white;
 }
 
@@ -140,9 +144,9 @@ tbody {
 }
 
 .menu li:focus {
-    pointer-events:auto;
+    pointer-events: auto;
 }
 
-.contact{
+.contact {
     text-align: center;
 }

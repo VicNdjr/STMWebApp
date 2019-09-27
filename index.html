@@ -6,6 +6,7 @@
     <title>Title</title>
     <script type="text/javascript" src="lines.json.js"></script>
     <script type="text/javascript" src="stops.json.js"></script>
+    <script type="text/javascript" src="arrivals.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
 <body onload="displaylines()">
@@ -35,170 +36,26 @@
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes</a>
-                <ul class="submenu" id ="shuttleLines">
+                <ul class="submenu" id="shuttleLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes Or</a>
-                <ul class="submenu" id = "shuttleOrLines">
+                <ul class="submenu" id="shuttleOrLines">
                 </ul>
             </li>
         </ul>
     </nav>
 
     <div id="stops-tab">
-        <span id="chosenLine">Nom de la ligne choisie</span>
+        <span id="chosenLine">Choisissez une ligne dans la liste</span>
         <table>
             <thead>
-                <td class="stop">Arrêt</td>
-                <td class="code">Code</td>
-                <td class="time">Horaire</td>
-                <td class="fav">Favoris</td>
+            <td class="stop">Arrêt</td>
+            <td class="code">Code</td>
+            <td class="time">Horaire</td>
+            <td class="fav">Favoris</td>
             </thead>
             <tbody id="allStops">
-                <tr>
-                    <td class="stop">Arrêt 1</td>
-                    <td class="code">1</td>
-                    <td class="time">11:00</td>
-                    <td class="fav">+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td><a href="#times-tab">[...]</a></td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 1</td>
-                    <td>1</td>
-                    <td>11:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td>12:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 1</td>
-                    <td>1</td>
-                    <td>11:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td>12:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 1</td>
-                    <td>1</td>
-                    <td>11:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td>12:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 1</td>
-                    <td>1</td>
-                    <td>11:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td>12:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 1</td>
-                    <td>1</td>
-                    <td>11:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 2</td>
-                    <td>2</td>
-                    <td>12:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 3</td>
-                    <td>3</td>
-                    <td>13:00</td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>Arrêt 4</td>
-                    <td>4</td>
-                    <td>14:00</td>
-                    <td>+</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -210,10 +67,18 @@
             <td>Prochains passages pour l'arret (nom-arret)<a id="cross" href="#stops-tab">&#x2716;</a></td>
             </thead>
             <tbody>
-            <tr><td class="test">10h00</td></tr>
-            <tr><td class="test">11h00</td></tr>
-            <tr><td class="test">12h00</td></tr>
-            <tr><td class="test">etc.</td></tr>
+            <tr>
+                <td class="test">10h00</td>
+            </tr>
+            <tr>
+                <td class="test">11h00</td>
+            </tr>
+            <tr>
+                <td class="test">12h00</td>
+            </tr>
+            <tr>
+                <td class="test">etc.</td>
+            </tr>
             </tbody>
         </table>
 
