@@ -1,24 +1,49 @@
 body {
     width: 1000px;
+    margin: auto;
+    text-align: center;
+    position: relative;
 }
 
 .header {
-    height: 300px;
+    height: 200px;
+    border: 5px solid #00aeef;
 }
 
-.footer {
-    float: bottom;
+footer {
+    position: fixed;
+    height: 150px;
+    bottom: 0;
+    width: 1000px;
+    border: 1px solid #00aeef;
+}
+
+#equipe {
+    float: left;
+    width: 110px;
+    margin-left: 300px;
+    text-align: left;
+}
+
+#mails {
+    float: right;
+    width: 100px;
+    list-style: none;
+    margin-right: 400px;
 }
 
 .logo {
     width: 200px;
     float: left;
-    padding-top: 50px;
+    margin-top: 60px;
+    margin-left: 80px;
 }
 
 .banner {
     width: 600px;
     float: right;
+    margin-top: 15px;
+    margin-right: 15px;
 }
 
 #stops-tab {
@@ -33,7 +58,9 @@ body {
     display: none;
 }
 
-#times-tab table, #times-tab thead td, .test {
+#times-tab table,
+#times-tab thead td,
+.test {
     width: 350px;
 }
 
@@ -41,7 +68,9 @@ body {
     height: 130px;
 }
 
+
 /*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
+
 #times-tab:target {
     display: block;
 }
@@ -52,7 +81,9 @@ body {
     color: black;
 }
 
+
 /*ferme le tableau des passages lorsque l'on clique sur la croix*/
+
 #cross:target {
     display: none;
 }
@@ -62,7 +93,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     border: 1px solid black;
 }
 
@@ -126,7 +158,9 @@ tbody {
     outline: none;
 }
 
+
 /*ouvre le sous-menu au premier clic*/
+
 .menu li:focus .submenu {
     display: block;
     background-color: white;
@@ -137,7 +171,7 @@ tbody {
     background-color: white;
 }
 
-.menu li > a {
+.menu li>a {
     pointer-events: none;
     text-decoration: none;
     color: black;

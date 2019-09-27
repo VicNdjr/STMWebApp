@@ -1,88 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css"/>
-    <title>Title</title>
+    <link rel="stylesheet" href="style.css" />
+    <title>STM</title>
     <script type="text/javascript" src="lines.json.js"></script>
     <script type="text/javascript" src="stops.json.js"></script>
     <script type="text/javascript" src="arrivals.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
+
 <body onload="fetchLines()">
-<div class="header">
-    <img src="logo.png" alt="Image not found" class="logo">
-    <img src="banniere1.png" alt="Image not found" class="banner">
-</div>
-
-<div class="infos">
-
-    <nav id="menu-nav">
-        <ul class="menu">
-            <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
-                <ul class="submenu" id="allLines">
-                </ul>
-            </li>
-            <li tabindex="0"><a href="#" title="#">Réseau local</a>
-                <ul class="submenu" id="localLines">
-                </ul>
-            </li>
-            <li tabindex="0"><a href="#" title="#">Réseau de nuit</a>
-                <ul class="submenu" id="nightLines">
-                </ul>
-            </li>
-            <li tabindex="0"><a href="#" title="#">Réseau express</a>
-                <ul class="submenu" id="expressLines">
-                </ul>
-            </li>
-            <li tabindex="0"><a href="#" title="#">Navettes</a>
-                <ul class="submenu" id="shuttleLines">
-                </ul>
-            </li>
-            <li tabindex="0"><a href="#" title="#">Navettes Or</a>
-                <ul class="submenu" id="shuttleOrLines">
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-    <div id="stops-tab">
-        <span id="textChosenLine">Choisissez une ligne dans la liste</span>
-        <table>
-            <thead>
-            <tr>
-                <th class="stop">Arrêt</th>
-                <th class="code">Code</th>
-                <th class="time">Horaire</th>
-                <th class="fav">Favoris</th>
-            </tr>
-            </thead>
-            <tbody id="allStops">
-            </tbody>
-        </table>
+    <br>
+    <div class="header">
+        <img src="logo.png" alt="Image not found" class="logo">
+        <img src="banniere1.png" alt="Image not found" class="banner">
     </div>
 
-    <!--_______TABLEAU PASSAGES_______-->
-    <div id="times-tab">
-        <table>
-            <thead>
-            <tr>
-                <th id="textChosenStop">Prochains passages pour l'arrêt<a id="cross" href="#stops-tab">&#x2716;</a></th>
-            </tr>
-            </thead>
-            <tbody id="allTimes">
-            </tbody>
-        </table>
+    <div class="infos">
+        <br><br><br>
 
+        <nav id="menu-nav">
+            <ul class="menu">
+                <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
+                    <ul class="submenu" id="allLines">
+                    </ul>
+                </li>
+                <li tabindex="0"><a href="#" title="#">Réseau local</a>
+                    <ul class="submenu" id="localLines">
+                    </ul>
+                </li>
+                <li tabindex="0"><a href="#" title="#">Réseau de nuit</a>
+                    <ul class="submenu" id="nightLines">
+                    </ul>
+                </li>
+                <li tabindex="0"><a href="#" title="#">Réseau express</a>
+                    <ul class="submenu" id="expressLines">
+                    </ul>
+                </li>
+                <li tabindex="0"><a href="#" title="#">Navettes</a>
+                    <ul class="submenu" id="shuttleLines">
+                    </ul>
+                </li>
+                <li tabindex="0"><a href="#" title="#">Navettes Or</a>
+                    <ul class="submenu" id="shuttleOrLines">
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="stops-tab">
+            <span id="textChosenLine">Choisissez une ligne dans la liste</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="stop">Arrêt</th>
+                        <th class="code">Code</th>
+                        <th class="time">Horaire</th>
+                        <th class="fav">Favoris</th>
+                    </tr>
+                </thead>
+                <tbody id="allStops">
+                </tbody>
+            </table>
+        </div>
+
+        <!--_______TABLEAU PASSAGES_______-->
+        <div id="times-tab">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="textChosenStop">Prochains passages pour l'arrêt<a id="cross" href="#stops-tab">&#x2716;</a></th>
+                    </tr>
+                </thead>
+                <tbody id="allTimes">
+                </tbody>
+            </table>
+
+        </div>
+        <br><br><br><br>
     </div>
-</div>
 
+
+    <footer>
+        <div class="contact">
+            <div>
+                <h3 style="color: #00aeef">EQUIPE 14</h3>
+                <ul id="equipe">
+                    <li>Nadjar Victoria</li>
+                    <li>Lecocq Noémie</li>
+                    <li>Dronet Elsa</li>
+                </ul>
+                <ul id="mails">
+                    <li>victoria.nadjar.1@ens.etsmtl.ca</li>
+                    <li>noemie.lecocq.1@ens.etsmtl.ca</li>
+                    <li>elsa.dronet.1@ens.etsmtl.ca</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
 </body>
 
-<footer>
-    <div class="contact">
-        <h1>Coordonnées</h1>
-    </div>
-</footer>
 </html>
