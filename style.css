@@ -139,10 +139,7 @@ tbody {
     color: black;
 }
 
-/*ferme le sous-menu au deuxième clic*/
 .menu li:focus {
-    pointer-events:none;
-li:focus {
     pointer-events:auto;
 }
 

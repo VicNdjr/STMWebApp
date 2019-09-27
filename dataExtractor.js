@@ -59,8 +59,8 @@ function displayOneLine(lineId, direction) {
             console.log(stops[line]);
             document.getElementById("allStops").innerHTML = '';
             for (let i = 0; i < stops[line].length; i++){
-                document.getElementById("allStops").innerHTML += '<tr> <td class="arret">' + stops[line][i].name+
-                    '</td>' + '<td class="code">' + stops[line][i].id + '<td class="horaire">11:00</td> <td class="fav">+</td>';
+                document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' + stops[line][i].name+
+                    '</td>' + '<td class="code">' + stops[line][i].id + '<td class="time"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
             }
         }
     }
