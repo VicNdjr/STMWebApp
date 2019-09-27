@@ -9,7 +9,7 @@
     <script type="text/javascript" src="arrivals.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
-<body onload="displaylines()">
+<body onload="fetchLines()">
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
     <img src="banniere1.png" alt="Image not found" class="banner">
@@ -47,13 +47,15 @@
     </nav>
 
     <div id="stops-tab">
-        <span id="chosenLine">Choisissez une ligne dans la liste</span>
+        <span id="textChosenLine">Choisissez une ligne dans la liste</span>
         <table>
             <thead>
-            <td class="stop">Arrêt</td>
-            <td class="code">Code</td>
-            <td class="time">Horaire</td>
-            <td class="fav">Favoris</td>
+            <tr>
+                <th class="stop">Arrêt</th>
+                <th class="code">Code</th>
+                <th class="time">Horaire</th>
+                <th class="fav">Favoris</th>
+            </tr>
             </thead>
             <tbody id="allStops">
             </tbody>
@@ -64,21 +66,11 @@
     <div id="times-tab">
         <table>
             <thead>
-            <td>Prochains passages pour l'arret (nom-arret)<a id="cross" href="#stops-tab">&#x2716;</a></td>
+            <tr>
+                <th id="textChosenStop">Prochains passages pour l'arrêt<a id="cross" href="#stops-tab">&#x2716;</a></th>
+            </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td class="test">10h00</td>
-            </tr>
-            <tr>
-                <td class="test">11h00</td>
-            </tr>
-            <tr>
-                <td class="test">12h00</td>
-            </tr>
-            <tr>
-                <td class="test">etc.</td>
-            </tr>
+            <tbody id="allTimes">
             </tbody>
         </table>
 
