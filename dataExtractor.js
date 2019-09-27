@@ -1,7 +1,7 @@
 
 function displaylines() {
     for (var i = 0; i < lines.length; i ++) {
-        document.getElementById("allLines").innerHTML += '<li>' + lines[i].id + ' ' + lines[i].name + ' (' +
+        document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' + lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
             lines[i].direction + ')' + '</li>';
 
         if (lines[i].category === 'local'){
@@ -32,4 +32,36 @@ function displaylines() {
     }
 
 
+}
+
+function openLine(line) {
+    console.log(line);
+    var splitted = line.split("-");
+    console.log(splitted);
+    displayOneLine(splitted[1], splitted[2])
+}
+
+function displayOneLine(lineId, direction) {
+    let line;
+    for (line of lines)
+        if (line.id === lineId && line.direction === direction)
+            document.getElementById("chosenLine").innerText = line.id + ' '+ line.name + ' ' + line.direction;
+    let dir;
+    if (direction.charAt(0) === "O")
+        dir = 'W';
+    else
+        dir = direction.charAt(0);
+
+    const str = lineId + '-' + dir;
+    for (let line in stops) {
+        if (line === str) {
+            console.log("Found " + str);
+            console.log(stops[line]);
+            document.getElementById("allStops").innerHTML = '';
+            for (let i = 0; i < stops[line].length; i++){
+                document.getElementById("allStops").innerHTML += '<tr> <td class="arret">' + stops[line][i].name+
+                    '</td>' + '<td class="code">' + stops[line][i].id + '<td class="horaire">11:00</td> <td class="fav">+</td>';
+            }
+        }
+    }
 }
