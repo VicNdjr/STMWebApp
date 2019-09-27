@@ -11,11 +11,11 @@
 <body onload="displaylines()">
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
-    <img src="banniere1.png" alt="Image not found" class="banniere">
+    <img src="banniere1.png" alt="Image not found" class="banner">
 </div>
 
 <div class="infos">
-    <span id="chosenLine">Nom de la ligne choisie</span>
+
     <nav id="menu-nav">
         <ul class="menu">
             <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
@@ -45,25 +45,26 @@
         </ul>
     </nav>
 
-    <div id="tableau">
+    <div id="stops-tab">
+        <span id="chosenLine">Nom de la ligne choisie</span>
         <table>
             <thead>
-                <td class="arret">Arrêt</td>
+                <td class="stop">Arrêt</td>
                 <td class="code">Code</td>
-                <td class="horaire">Horaire</td>
+                <td class="time">Horaire</td>
                 <td class="fav">Favoris</td>
             </thead>
             <tbody id="allStops">
-                <!--<tr>
-                    <td class="arret">Arrêt 1</td>
+                <tr>
+                    <td class="stop">Arrêt 1</td>
                     <td class="code">1</td>
-                    <td class="horaire">11:00</td>
+                    <td class="time">11:00</td>
                     <td class="fav">+</td>
                 </tr>
                 <tr>
                     <td>Arrêt 2</td>
                     <td>2</td>
-                    <td>12:00</td>
+                    <td><a href="#times-tab">[...]</a></td>
                     <td>+</td>
                 </tr>
                 <tr>
@@ -197,15 +198,33 @@
                     <td>4</td>
                     <td>14:00</td>
                     <td>+</td>
-                </tr>-->
+                </tr>
             </tbody>
         </table>
     </div>
+
+    <!--_______TABLEAU PASSAGES_______-->
+    <div id="times-tab">
+        <table>
+            <thead>
+            <td>Prochains passages pour l'arret (nom-arret)<a id="cross" href="#stops-tab">&#x2716;</a></td>
+            </thead>
+            <tbody>
+            <tr><td class="test">10h00</td></tr>
+            <tr><td class="test">11h00</td></tr>
+            <tr><td class="test">12h00</td></tr>
+            <tr><td class="test">etc.</td></tr>
+            </tbody>
+        </table>
+
+    </div>
 </div>
+
+
 </body>
 
 <footer>
-    <div class="coordonnees">
+    <div class="contact">
         <h1>Coordonnées</h1>
     </div>
 </footer>
