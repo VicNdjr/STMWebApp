@@ -16,30 +16,44 @@ body {
     padding-top: 50px;
 }
 
-.banniere {
+.banner {
     width: 600px;
     float: right;
 }
 
-#tableau{
+#stops-tab{
     width: 50%;
     margin-left: 50%;
 }
 
-#tab-arrets{
+#times-tab{
     width: 50%;
     margin-left: 50%;
     padding-top: 20px;
+    display: none;
 }
 
-#tab-arrets table, #tab-arrets thead td, .test{
+#times-tab table, #times-tab thead td, .test{
     width: 350px;
-
 }
 
-#tab-arrets table{
+#times-tab table{
     height: 130px;
+}
+/*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
+#times-tab:target{
+    display: block;
+}
 
+#cross {
+    float: right;
+    text-decoration: none;
+    color: black;
+}
+
+/*ferme le tableau des passages lorsque l'on clique sur la croix*/
+#cross:target{
+    display: none;
 }
 
 table{
@@ -50,7 +64,6 @@ table{
 th,td{
     border: 1px solid black;
 }
-
 
 thead{
     font-weight : bolder;
@@ -63,13 +76,13 @@ tbody {
     display: block;
 }
 
-.arret{
+.stop{
     width: 200px;
 }
 .code{
     width: 50px;
 }
-.horaire{
+.time{
     width: 100px;
 }
 .fav{
@@ -86,7 +99,7 @@ tbody {
 }
 
 .menu li {
-    font-size: 40px;
+    font-size: 30px;
     text-align: center;
     font-family: Times;
     border: 1px solid black;
@@ -95,7 +108,7 @@ tbody {
 }
 
 .submenu li{
-    font-size: 30px;
+    font-size: 20px;
     text-align: left;
     list-style: none;
     border: none;
@@ -103,6 +116,10 @@ tbody {
 
 .submenu{
     display:none;
+}
+
+.menu li:focus {
+    background-color: steelblue;
 }
 
 /*ouvre le sous-menu au premier clic*/
@@ -116,8 +133,6 @@ tbody {
     background-color: white;
 }
 
-
-
 .menu li > a {
     pointer-events: none;
     text-decoration: none;
@@ -129,6 +144,6 @@ tbody {
     pointer-events:none;
 }
 
-.coordonnees{
+.contact{
     text-align: center;
 }

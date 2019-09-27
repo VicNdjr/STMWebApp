@@ -3,76 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css"/>
-    <title>Title !</title>
+    <title>Title</title>
+    <script type="text/javascript" src="lines.json.js"></script>
+    <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
-<body>
+<body onload="displaylines()">
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
-    <img src="banniere1.png" alt="Image not found" class="banniere">
+    <img src="banniere1.png" alt="Image not found" class="banner">
 </div>
 
 <div class="infos">
-    <span>Nom de la ligne choisie</span>
+
     <nav id="menu-nav">
         <ul class="menu">
             <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="allLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau local</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="localLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau de nuit</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="nightLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Réseau express</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id="expressLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id ="shuttleLines">
                 </ul>
             </li>
             <li tabindex="0"><a href="#" title="#">Navettes Or</a>
-                <ul class="submenu">
-                    <li>1</li>
-                    <li>2</li>
+                <ul class="submenu" id = "shuttleOrLines">
                 </ul>
             </li>
         </ul>
     </nav>
 
-    <div id="tableau">
+    <div id="stops-tab">
+        <span>Nom de la ligne choisie</span>
         <table>
             <thead>
-                <td class="arret">Arrêt</td>
+                <td class="stop">Arrêt</td>
                 <td class="code">Code</td>
-                <td class="horaire">Horaire</td>
+                <td class="time">Horaire</td>
                 <td class="fav">Favoris</td>
             </thead>
             <tbody>
                 <tr>
-                    <td class="arret">Arrêt 1</td>
+                    <td class="stop">Arrêt 1</td>
                     <td class="code">1</td>
-                    <td class="horaire">11:00</td>
+                    <td class="time">11:00</td>
                     <td class="fav">+</td>
                 </tr>
                 <tr>
                     <td>Arrêt 2</td>
                     <td>2</td>
-                    <td>12:00</td>
+                    <td><a href="#times-tab">[...]</a></td>
                     <td>+</td>
                 </tr>
                 <tr>
@@ -210,11 +201,29 @@
             </tbody>
         </table>
     </div>
+
+    <!--_______TABLEAU PASSAGES_______-->
+    <div id="times-tab">
+        <table>
+            <thead>
+            <td>Prochains passages pour l'arret (nom-arret)<a id="cross" href="#stops-tab">&#x2716;</a></td>
+            </thead>
+            <tbody>
+            <tr><td class="test">10h00</td></tr>
+            <tr><td class="test">11h00</td></tr>
+            <tr><td class="test">12h00</td></tr>
+            <tr><td class="test">etc.</td></tr>
+            </tbody>
+        </table>
+
+    </div>
 </div>
+
+
 </body>
 
 <footer>
-    <div class="coordonnees">
+    <div class="contact">
         <h1>Coordonnées</h1>
     </div>
 </footer>
