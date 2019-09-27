@@ -16,26 +16,58 @@ body {
     padding-top: 50px;
 }
 
-.banniere {
+.banner {
     width: 600px;
     float: right;
 }
 
-#tableau{
+#stops-tab {
     width: 50%;
     margin-left: 50%;
 }
 
-table{
+#times-tab {
+    width: 50%;
+    margin-left: 50%;
+    padding-top: 20px;
+    display: none;
+}
+
+#times-tab table, #times-tab thead td, .test {
+    width: 350px;
+}
+
+#times-tab table {
+    height: 130px;
+}
+
+/*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
+#times-tab:target {
+    display: block;
+}
+
+#cross {
+    float: right;
+    text-decoration: none;
+    color: black;
+}
+
+/*ferme le tableau des passages lorsque l'on clique sur la croix*/
+#cross:target {
+    display: none;
+}
+
+table {
     border: 1px solid black;
     border-collapse: collapse;
 }
-th,td{
+
+th, td {
     border: 1px solid black;
 }
 
-thead{
-    font-weight : bolder;
+thead {
+    font-weight: bolder;
     display: block;
 }
 
@@ -45,51 +77,76 @@ tbody {
     display: block;
 }
 
-.arret{
+.stop {
     width: 200px;
 }
-.code{
+
+.code {
     width: 50px;
 }
-.horaire{
+
+.time {
     width: 100px;
 }
-.fav{
+
+.fav {
     width: 100px;
 }
 
 #menu-nav {
     overflow-y: auto;
     display: block;
-    width: 50%;
+    width: 40%;
+    margin-left: 50px;
     float: left;
-    height: 100px;
+    height: 300px;
 }
 
-.menu, .submenu{
+.menu li {
+    font-size: 30px;
+    text-align: center;
+    border: 1px solid black;
+    background-color: #00aeef;
     list-style: none;
 }
 
-#menu-nav ul li ul{
-    display:none;
+.submenu li {
+    font-size: 20px;
+    text-align: left;
+    list-style: none;
+    border: none;
 }
 
-#menu-nav ul li:focus .submenu{
+.submenu {
+    display: none;
+}
+
+.menu li:focus {
+    background-color: #fee514;
+    outline: none;
+}
+
+/*ouvre le sous-menu au premier clic*/
+.menu li:focus .submenu {
     display: block;
+    background-color: white;
+    border-top: 1px solid black;
 }
 
-li[tabindex]>a {
-    pointer-events:none;
+.menu li:focus .submenu li {
+    background-color: white;
 }
 
-li:focus {
-    pointer-events:none;
+.menu li > a {
+    pointer-events: none;
+    text-decoration: none;
+    color: black;
 }
 
-li:focus .submenu li a{
-    pointer-events:auto;
+.menu li:focus {
+    pointer-events: auto;
 }
 
-.coordonnees{
+.contact {
     text-align: center;
 }
