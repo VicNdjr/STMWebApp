@@ -119,6 +119,7 @@ tbody {
 
 .submenu {
     display: none;
+    pointer-events: auto
 }
 
 .menu li:focus {
@@ -144,7 +145,7 @@ tbody {
 }
 
 .menu li:focus {
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 .contact {
