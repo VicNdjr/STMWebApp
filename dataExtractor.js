@@ -51,8 +51,8 @@ function displayOneLine(lineId, direction) {
     let line;
     for (line of lines)
         if (line.id === lineId && line.direction === direction)
-            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
-                + line.direction;
+            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' ' +
+            line.direction;
     let dir;
     if (direction.charAt(0) === "O")
         dir = 'W';
@@ -88,6 +88,6 @@ function displayOneStop(stop) {
     document.getElementById("allTimes").innerHTML = '';
     for (let i = 0; i < arrivals[stop].length; i++) {
         document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' +
-            arrivals[stop][i].slice(0,2) + ' : ' + arrivals[stop][i].slice(2,4) + '</td> </tr>';
+            arrivals[stop][i].slice(0, 2) + ' : ' + arrivals[stop][i].slice(2, 4) + '</td> </tr>';
     }
 }
