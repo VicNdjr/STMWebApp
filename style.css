@@ -154,8 +154,9 @@ tbody {
 }
 
 .menu li:focus {
-    background-color: #fee514;
+    background-color: steelblue;
     outline: none;
+    pointer-events: auto;
 }
 
 
@@ -175,10 +176,6 @@ tbody {
     pointer-events: none;
     text-decoration: none;
     color: black;
-}
-
-.menu li:focus {
-    pointer-events: auto;
 }
 
 .contact {
