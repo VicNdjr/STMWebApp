@@ -151,12 +151,13 @@ tbody {
 
 .submenu {
     display: none;
+    pointer-events: auto;
 }
 
 .menu li:focus {
     background-color: steelblue;
     outline: none;
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 
