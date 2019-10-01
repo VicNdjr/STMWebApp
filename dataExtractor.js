@@ -1,3 +1,6 @@
+var isTimerActive = false;
+var timer;
+
 /**
  * Fetch the data about all the bus lines and
  */
@@ -29,8 +32,6 @@ function fetchLines() {
                 lines[i].direction + ')' + '</li>';
         }
     }
-
-
 }
 
 /**
@@ -67,9 +68,23 @@ function displayOneLine(lineId, direction) {
                 document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
                     stops[line][i].name + '</td>' + '<td class="code">' + stops[line][i].id +
                     '<td class="time" id="' + lineId + '-' + dir + '-' + stops[line][i].id +
-                    '" onclick="displayOneStop(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                    '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
             }
         }
+    }
+}
+
+function displayTimer(stop) {
+    if (isTimerActive === false) {
+        displayOneStop(stop);
+        timer = setTimeout(function () {
+            displayOneStop(stop);
+        }, 5000);
+        isTimerActive = true;
+    } else {
+        clearInterval(timer);
+        isTimerActive = false;
+        displayTimer(stop);
     }
 }
 
@@ -78,6 +93,7 @@ function displayOneLine(lineId, direction) {
  * @param stop Id of the stop that was clicked
  */
 function displayOneStop(stop) {
+    var today = new Date();
     const splitted = stop.split("-");
     let str = splitted[0] + '-' + splitted[1];
     let s;
@@ -86,8 +102,18 @@ function displayOneStop(stop) {
             document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + s.name;
     }
     document.getElementById("allTimes").innerHTML = '';
-    for (let i = 0; i < arrivals[stop].length; i++) {
-        document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' +
-            arrivals[stop][i].slice(0,2) + ' : ' + arrivals[stop][i].slice(2,4) + '</td> </tr>';
+    let counter = 0;
+    for (let i = 0; i < arrivals[stop].length && counter < 10; i++) {
+        if (parseInt(arrivals[stop][i].slice(0, 2), 10) >= today.getHours() &&
+            (arrivals[stop][i].slice(2, 4), 10) >= today.getMinutes()) {
+            counter++;
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' +
+                arrivals[stop][i].slice(0, 2) + ' : ' + arrivals[stop][i].slice(2, 4) + '</td> </tr>';
+        }
+    }
+    if (counter === 0)
+    {
+        document.getElementById("allTimes").innerHTML += '<tr> <td class="test"> Il n\'y a plus de bus ' +
+            'aujourd\'hui ! </td> </tr>';
     }
 }
