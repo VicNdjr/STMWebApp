@@ -1,5 +1,5 @@
-var isTimerActive = false;
-var timer;
+let isTimerActive = false;
+let timer;
 
 /**
  * Fetch the data about all the bus lines and display it
@@ -14,19 +14,23 @@ function fetchLines() {
             document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        } else if (lines[i].category === 'night') {
+        }
+        else if (lines[i].category === 'night') {
             document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        } else if (lines[i].category === 'express') {
+        }
+        else if (lines[i].category === 'express') {
             document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        } else if (lines[i].category === 'dedicated') {
+        }
+        else if (lines[i].category === 'dedicated') {
             document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        } else if (lines[i].category === 'shuttleOr') {
+        }
+        else if (lines[i].category === 'shuttleOr') {
             document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
@@ -82,18 +86,21 @@ function displayOneLine(lineId, direction) {
 
 /**
  * Launch a timer to actualise the time table every 5 seconds
- * @param stop top Id of the stop that was clicked
+ * @param stop Id of the stop that was clicked
  */
 function displayTimer(stop) {
     if (isTimerActive === false) {
         displayOneStop(stop);
+
         timer = setTimeout(function () {
             displayOneStop(stop);
         }, 5000);
         isTimerActive = true;
-    } else {
+    }
+    else {
         clearInterval(timer);
         isTimerActive = false;
+
         displayTimer(stop);
     }
 }
@@ -129,6 +136,7 @@ function displayOneStop(stop) {
                 arrivals[stop][i].slice(0, 2) + ' : ' + arrivals[stop][i].slice(2, 4) + '</td> </tr>';
         }
     }
+
     // If no arrival have been found
     if (counter === 0) {
         document.getElementById("allTimes").innerHTML = '<tr>Il n\'y a plus de bus ' +
