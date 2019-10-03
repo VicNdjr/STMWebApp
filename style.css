@@ -11,11 +11,13 @@ body {
 }
 
 footer {
-    position: fixed;
+    position: relative;
     height: 150px;
     bottom: 0;
     width: 1000px;
     border: 1px solid #00aeef;
+    margin-top: 200px;
+    margin-bottom: 50px;
 }
 
 #equipe {
@@ -27,7 +29,7 @@ footer {
 
 #mails {
     float: right;
-    width: 100px;
+    width: 110px;
     list-style: none;
     margin-right: 400px;
 }
@@ -70,6 +72,7 @@ footer {
 
 
 /*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
+
 #times-tab:target {
     display: block;
 }
@@ -82,6 +85,7 @@ footer {
 
 
 /*ferme le tableau des passages lorsque l'on clique sur la croix*/
+
 #cross:target {
     display: none;
 }
@@ -153,13 +157,14 @@ tbody {
 }
 
 .menu li:focus {
-    background-color: #fee514;
+    background-color: steelblue;
     outline: none;
     pointer-events: none;
 }
 
 
 /*ouvre le sous-menu au premier clic*/
+
 .menu li:focus .submenu {
     display: block;
     background-color: white;
@@ -174,10 +179,6 @@ tbody {
     pointer-events: none;
     text-decoration: none;
     color: black;
-}
-
-.menu li:focus {
-    pointer-events: none;
 }
 
 .contact {
