@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css"/>
@@ -9,13 +10,16 @@
     <script type="text/javascript" src="arrivals.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
 </head>
-<body onload="fetchLines()">
-<div class="header">
-    <img src="logo.png" alt="Image not found" class="logo">
-    <img src="banniere1.png" alt="Image not found" class="banner">
-</div>
 
-<div class="infos">
+<body onload="fetchLines()">
+    <br>
+    <div class="header">
+        <img src="logo.png" alt="Image not found" class="logo">
+        <img src="banniere1.png" alt="Image not found" class="banner">
+    </div>
+
+    <div class="infos">
+        <br><br><br>
 
     <nav id="menu-nav">
         <ul class="menu">
@@ -46,21 +50,21 @@
         </ul>
     </nav>
 
-    <div id="stops-tab">
-        <span id="textChosenLine">Choisissez une ligne dans la liste</span>
-        <table>
-            <thead>
-            <tr>
-                <th class="stop">Arrêt</th>
-                <th class="code">Code</th>
-                <th class="time">Horaire</th>
-                <th class="fav">Favoris</th>
-            </tr>
-            </thead>
-            <tbody id="allStops">
-            </tbody>
-        </table>
-    </div>
+        <div id="stops-tab">
+            <span id="textChosenLine">Choisissez une ligne dans la liste</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="stop">Arrêt</th>
+                        <th class="code">Code</th>
+                        <th class="time">Horaire</th>
+                        <th class="fav">Favoris</th>
+                    </tr>
+                </thead>
+                <tbody id="allStops">
+                </tbody>
+            </table>
+        </div>
 
     <!--_______TABLEAU PASSAGES_______-->
     <div id="times-tab">
@@ -75,15 +79,29 @@
             </tbody>
         </table>
 
+        </div>
+        <br><br><br><br>
     </div>
-</div>
 
+
+    <footer>
+        <div class="contact">
+            <div>
+                <h3 style="color: #00aeef">EQUIPE 14</h3>
+                <ul id="equipe">
+                    <li>Nadjar Victoria</li>
+                    <li>Lecocq Noémie</li>
+                    <li>Dronet Elsa</li>
+                </ul>
+                <ul id="mails">
+                    <li>victoria.nadjar.1@ens.etsmtl.ca</li>
+                    <li>noemie.lecocq.1@ens.etsmtl.ca</li>
+                    <li>elsa.dronet.1@ens.etsmtl.ca</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
 </body>
 
-<footer>
-    <div class="contact">
-        <h1>Coordonnées</h1>
-    </div>
-</footer>
 </html>
