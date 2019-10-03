@@ -70,7 +70,6 @@ footer {
 
 
 /*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
-
 #times-tab:target {
     display: block;
 }
@@ -83,7 +82,6 @@ footer {
 
 
 /*ferme le tableau des passages lorsque l'on clique sur la croix*/
-
 #cross:target {
     display: none;
 }
@@ -155,14 +153,13 @@ tbody {
 }
 
 .menu li:focus {
-    background-color: steelblue;
+    background-color: #fee514;
     outline: none;
     pointer-events: none;
 }
 
 
 /*ouvre le sous-menu au premier clic*/
-
 .menu li:focus .submenu {
     display: block;
     background-color: white;
@@ -177,6 +174,10 @@ tbody {
     pointer-events: none;
     text-decoration: none;
     color: black;
+}
+
+.menu li:focus {
+    pointer-events: none;
 }
 
 .contact {
