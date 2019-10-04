@@ -11,13 +11,11 @@ body {
 }
 
 footer {
-    position: relative;
+    position: fixed;
     height: 150px;
     bottom: 0;
     width: 1000px;
     border: 1px solid #00aeef;
-    margin-top: 200px;
-    margin-bottom: 50px;
 }
 
 #equipe {
