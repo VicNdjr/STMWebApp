@@ -188,3 +188,18 @@ tbody {
 .fav {
     width: 100px;
 }
+
+
+/* gestion de la carte */
+
+#tabs-horaires {
+    display: none;
+}
+
+#div-carte {
+    display: block;
+}
+
+#mapid {
+    height: 180px;
+}

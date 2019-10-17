@@ -14,23 +14,19 @@ function fetchLines() {
             document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'night') {
+        } else if (lines[i].category === 'night') {
             document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'express') {
+        } else if (lines[i].category === 'express') {
             document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'dedicated') {
+        } else if (lines[i].category === 'dedicated') {
             document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'shuttleOr') {
+        } else if (lines[i].category === 'shuttleOr') {
             document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
                 lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
                 lines[i].direction + ')' + '</li>';
@@ -56,8 +52,8 @@ function displayOneLine(lineId, direction) {
     let line;
     for (line of lines) {
         if (line.id === lineId && line.direction === direction)
-            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
-                + line.direction;
+            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' ' +
+            line.direction;
     }
     // Handle the language conversion
     let dir;
@@ -92,12 +88,11 @@ function displayTimer(stop) {
     if (isTimerActive === false) {
         displayOneStop(stop);
 
-        timer = setTimeout(function () {
+        timer = setTimeout(function() {
             displayOneStop(stop);
         }, 5000);
         isTimerActive = true;
-    }
-    else {
+    } else {
         clearInterval(timer);
         isTimerActive = false;
 
@@ -111,6 +106,7 @@ function displayTimer(stop) {
  */
 function displayOneStop(stop) {
     // Get actual date and time
+    console.log("refresh");
     let today = new Date();
 
     const splitted = stop.split("-");
