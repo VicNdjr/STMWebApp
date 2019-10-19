@@ -2,34 +2,68 @@ let isTimerActive = false;
 let timer;
 let lines;
 
-function testAPI() {
-    const req = new XMLHttpRequest();
-    req.onreadystatechange = function () {
-        console.log("hey");
-        if (req.status === 200){
-            lines = req.responseText.toString();
-            console.log("Réponse reçue: %s", lines);
-            if (lines.length > 0){
-                console.log("OK");
-                fetchLines();
+/**
+ * Fetch the data about all the bus lines and display it
+ */
+function displaylines() {
+    var xhr = new XMLHttpRequest();
+    lines = "";
+
+    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110');
+
+    xhr.responseType = 'text';
+
+    //ASYNCHRONE
+    xhr.onreadystatechange = function (event) {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                console.log("Réponse reçue: %s", this.responseText);
+                lines = JSON.parse(xhr.responseText);
+                for (let i = 0; i < lines.length; i++) {
+                    document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                        lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                        lines[i].direction + ')' + '</li>';
+
+                    if (lines[i].category === 'local') {
+                        document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                    else if (lines[i].category === 'night') {
+                        document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                    else if (lines[i].category === 'express') {
+                        document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                    else if (lines[i].category === 'dedicated') {
+                        document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                    else if (lines[i].category === 'shuttleOr') {
+                        document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                }
+            } else {
+                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
             }
-            //lines = req.responseText;
-            //fetchLines();
-        } else {
-            console.log("Status de la réponse: %s", req.responseText);
         }
-        //lines = req.responseText;
     };
-    req.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110', true);
-    //req.open('GET', url);
-    req.send();
+
+    xhr.send();
 }
 
 
 /**
  * Fetch the data about all the bus lines and display it
  */
-function fetchLines() {
+/*function fetchLines() {
     for (let i = 0; i < lines.length; i++) {
         document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
             lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
@@ -61,7 +95,7 @@ function fetchLines() {
                 lines[i].direction + ')' + '</li>';
         }
     }
-}
+}*/
 
 /**
  * Send all informations about the clicked line to the display function
