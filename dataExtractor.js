@@ -1,5 +1,30 @@
 let isTimerActive = false;
 let timer;
+let lines;
+
+function testAPI() {
+    const req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        console.log("hey");
+        if (req.status === 200){
+            lines = req.responseText.toString();
+            console.log("Réponse reçue: %s", lines);
+            if (lines.length > 0){
+                console.log("OK");
+                fetchLines();
+            }
+            //lines = req.responseText;
+            //fetchLines();
+        } else {
+            console.log("Status de la réponse: %s", req.responseText);
+        }
+        //lines = req.responseText;
+    };
+    req.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110', true);
+    //req.open('GET', url);
+    req.send();
+}
+
 
 /**
  * Fetch the data about all the bus lines and display it
@@ -92,7 +117,7 @@ function displayTimer(stop) {
     if (isTimerActive === false) {
         displayOneStop(stop);
 
-        timer = setTimeout(function () {
+        timer = setInterval(function () {
             displayOneStop(stop);
         }, 5000);
         isTimerActive = true;
@@ -110,6 +135,7 @@ function displayTimer(stop) {
  * @param stop Id of the stop that was clicked
  */
 function displayOneStop(stop) {
+    console.log("refresh");
     // Get actual date and time
     let today = new Date();
 
