@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="866b615b-ed92-4ec6-b9fd-cbe8352f010f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataExtractor.js" beforeDir="false" afterPath="$PROJECT_DIR$/dataExtractor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +69,31 @@
       <workItem from="1570141155792" duration="133000" />
       <workItem from="1570158135774" duration="259000" />
       <workItem from="1570805476386" duration="6706000" />
+      <workItem from="1571759601899" duration="2227000" />
+      <workItem from="1571763947108" duration="1413000" />
     </task>
+    <task id="LOCAL-00001" summary="api lines OK">
+      <created>1571523698324</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571523698324</updated>
+    </task>
+    <task id="LOCAL-00002" summary="plus d'utilisation des jsons fournis">
+      <created>1571526069092</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571526069092</updated>
+    </task>
+    <task id="LOCAL-00003" summary="noms de l'arret affiché et call API toutes les 10 secondes">
+      <created>1571765052481</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1571765052481</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -89,5 +111,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="api lines OK" />
+    <MESSAGE value="plus d'utilisation des jsons fournis" />
+    <MESSAGE value="noms de l'arret affiché et call API toutes les 10 secondes" />
+    <option name="LAST_COMMIT_MESSAGE" value="noms de l'arret affiché et call API toutes les 10 secondes" />
   </component>
 </project>
