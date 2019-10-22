@@ -1,7 +1,7 @@
 let isTimerActive = false;
 let timer;
 let lines;
-let stop;
+let currentstop;
 let arrivals;
 
 /**
@@ -56,45 +56,6 @@ function displaylines() {
     xhr.send();
 }
 
-
-/**
- * Fetch the data about all the bus lines and display it
- */
-
-/*function fetchLines() {
-    for (let i = 0; i < lines.length; i++) {
-        document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-            lines[i].direction + ')' + '</li>';
-
-        if (lines[i].category === 'local') {
-            document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-                lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'night') {
-            document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-                lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'express') {
-            document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-                lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'dedicated') {
-            document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-                lines[i].direction + ')' + '</li>';
-        }
-        else if (lines[i].category === 'shuttleOr') {
-            document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
-                lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
-                lines[i].direction + ')' + '</li>';
-        }
-    }
-}*/
-
 /**
  * Send all informations about the clicked line to the display function
  * @param line Id of the line that was clicked
@@ -135,12 +96,14 @@ function displayOneLine(lineId, direction) {
     xhr.onreadystatechange = function (event) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                stop = JSON.parse(xhr.responseText);
+                currentstop = JSON.parse(xhr.responseText);
+                console.log(currentstop);
                 // Display the stops
-                for (let i = 0; i < stop.length; i++) {
+                document.getElementById("allStops").innerHTML = "";
+                for (let i = 0; i < currentstop.length; i++) {
                     document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        stop[i].name + '</td>' + '<td class="code">' + stop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + stop[i].id +
+                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
             }
@@ -156,6 +119,20 @@ function displayOneLine(lineId, direction) {
  * @param stop Id of the stop that was clicked
  */
 function displayTimer(stop) {
+    if (isTimerActive === false) {
+        callAPI(stop);
+        timer = setInterval(function () {
+            callAPI(stop);
+        }, 10000);
+        isTimerActive = true;
+    } else {
+        clearInterval(timer);
+        isTimerActive = false;
+        displayTimer(stop);
+    }
+}
+
+function callAPI(stop) {
     const splitted = stop.split("-");
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
@@ -166,21 +143,8 @@ function displayTimer(stop) {
     xhr.onreadystatechange = function (event) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                console.log("Réponse reçue: %s", this.responseText);
                 arrivals = JSON.parse(xhr.responseText);
-                if (isTimerActive === false) {
-                    displayOneStop(stop);
-
-                    timer = setInterval(function () {
-                        displayOneStop(stop);
-                    }, 5000);
-                    isTimerActive = true;
-                } else {
-                    clearInterval(timer);
-                    isTimerActive = false;
-
-                    displayTimer(stop);
-                }
+                displayOneStop(stop);
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
@@ -201,8 +165,13 @@ function displayOneStop(stop) {
     const splitted = stop.split("-");
     let str = splitted[0] + '-' + splitted[1];
 
+    for (var i = 0; i < currentstop.length; i++) {
+        if (currentstop[i].id === splitted[2]){
+            var name = currentstop[i].name;
+        }
+    }
     // Display the name of the stop
-    document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + stop.name;
+    document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
 
     // Clear the html
     document.getElementById("allTimes").innerHTML = '';
@@ -212,10 +181,10 @@ function displayOneStop(stop) {
     for (let i = 0; i < arrivals.length && counter < 10; i++) {
         counter++;
         if (arrivals[i].length === 4) {
-            document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' +
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
                 arrivals[i].slice(0,2) + ':' + arrivals[i].slice(2,4) + '</td> </tr>';
         } else {
-            document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' + arrivals[i] +
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
                 '</td> </tr>';
         }
     }

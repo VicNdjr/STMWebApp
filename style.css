@@ -65,12 +65,9 @@ tbody {
 
 #times-tab table,
 #times-tab thead td,
-.test {
-    width: 350px;
-}
-
 #times-tab table {
     height: 130px;
+    width: 350px;
 }
 
 
@@ -187,4 +184,14 @@ tbody {
 
 .fav {
     width: 100px;
+}
+
+.hour {
+    width: 350px;
+    color: black;
+}
+
+.minutes {
+    width: 350px;
+    color: #00aeef;
 }
