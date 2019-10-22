@@ -1,41 +1,60 @@
 let isTimerActive = false;
 let timer;
+let lines;
+//let currentstop;
+let arrivals;
+let geo;
 
 /**
  * Fetch the data about all the bus lines and display it
  */
-function fetchLines(resp) {
-    for (let i = 0; i < resp.length; i++) {
-        document.getElementById("allLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-            resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-            resp[i].direction + ')' + '</li>';
+function displaylines() {
+    var xhr = new XMLHttpRequest();
+    lines = "";
 
-        if (resp[i].category === 'local') {
-            document.getElementById("localLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-                resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-                resp[i].direction + ')' + '</li>';
+    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110');
+
+    xhr.responseType = 'text';
+
+    //AFFICHE LES LIGNES
+    xhr.onreadystatechange = function (event) {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                lines = JSON.parse(xhr.responseText);
+                for (let i = 0; i < lines.length; i++) {
+                    document.getElementById("allLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                        lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                        lines[i].direction + ')' + '</li>';
+
+                    if (lines[i].category === 'local') {
+                        document.getElementById("localLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    } else if (lines[i].category === 'night') {
+                        document.getElementById("nightLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    } else if (lines[i].category === 'express') {
+                        document.getElementById("expressLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    } else if (lines[i].category === 'dedicated') {
+                        document.getElementById("shuttleLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    } else if (lines[i].category === 'shuttleOr') {
+                        document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + lines[i].id + '-' +
+                            lines[i].direction + '" onclick="openLine(this.id)">' + lines[i].id + ' ' + lines[i].name + ' (' +
+                            lines[i].direction + ')' + '</li>';
+                    }
+                }
+            } else {
+                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+            }
         }
-        else if (resp[i].category === 'night') {
-            document.getElementById("nightLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-                resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-                resp[i].direction + ')' + '</li>';
-        }
-        else if (resp[i].category === 'express') {
-            document.getElementById("expressLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-                resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-                resp[i].direction + ')' + '</li>';
-        }
-        else if (resp[i].category === 'dedicated') {
-            document.getElementById("shuttleLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-                resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-                resp[i].direction + ')' + '</li>';
-        }
-        else if (resp[i].category === 'shuttleOr') {
-            document.getElementById("shuttleOrLines").innerHTML += '<li id="line-' + resp[i].id + '-' +
-                resp[i].direction + '" onclick="openLine(this.id)">' + resp[i].id + ' ' + resp[i].name + ' (' +
-                resp[i].direction + ')' + '</li>';
-        }
-    }
+    };
+
+    xhr.send();
 }
 
 /**
@@ -55,9 +74,12 @@ function openLine(line) {
 function displayOneLine(lineId, direction) {
     let line;
     for (line of lines) {
-        if (line.id === lineId && line.direction === direction)
+        if (line.id === lineId && line.direction === direction){
             document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
                 + line.direction;
+            console.log(line);
+        }
+
     }
     // Handle the language conversion
     let dir;
@@ -68,20 +90,33 @@ function displayOneLine(lineId, direction) {
 
     const str = lineId + '-' + dir;
 
-    for (let line in stops) {
-        if (line === str) {
-            // Clear the html
-            document.getElementById("allStops").innerHTML = '';
+    var xhr = new XMLHttpRequest();
 
-            // Display the stops
-            for (let i = 0; i < stops[line].length; i++) {
-                document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                    stops[line][i].name + '</td>' + '<td class="code">' + stops[line][i].id +
-                    '<td class="time" id="' + lineId + '-' + dir + '-' + stops[line][i].id +
-                    '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
+        '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
+    xhr.responseType = 'text';
+
+    //ASYNCHRONE
+    xhr.onreadystatechange = function (event) {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                currentstop = JSON.parse(xhr.responseText);
+                console.log(currentstop[0]);
+
+                // Display the stops
+                document.getElementById("allStops").innerHTML = "";
+                for (let i = 0; i < currentstop.length; i++) {
+                    document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
+                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
+                        '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                }
             }
+        } else {
+            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
-    }
+    };
+    xhr.send();
 }
 
 /**
@@ -90,19 +125,37 @@ function displayOneLine(lineId, direction) {
  */
 function displayTimer(stop) {
     if (isTimerActive === false) {
-        displayOneStop(stop);
-
-        timer = setTimeout(function () {
-            displayOneStop(stop);
-        }, 5000);
+        callAPI(stop);
+        timer = setInterval(function () {
+            callAPI(stop);
+        }, 10000);
         isTimerActive = true;
-    }
-    else {
+    } else {
         clearInterval(timer);
         isTimerActive = false;
-
         displayTimer(stop);
     }
+}
+
+function callAPI(stop) {
+    const splitted = stop.split("-");
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
+        '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
+    xhr.responseType = 'text';
+
+    //ASYNCHRONE
+    xhr.onreadystatechange = function (event) {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                arrivals = JSON.parse(xhr.responseText);
+                displayOneStop(stop);
+            }
+        } else {
+            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+        }
+    };
+    xhr.send();
 }
 
 /**
@@ -110,30 +163,34 @@ function displayTimer(stop) {
  * @param stop Id of the stop that was clicked
  */
 function displayOneStop(stop) {
+    console.log("refresh");
     // Get actual date and time
     let today = new Date();
 
     const splitted = stop.split("-");
     let str = splitted[0] + '-' + splitted[1];
 
-    // Display the name of the stop
-    let s;
-    for (s of stops[str]) {
-        if (s.id === splitted[2])
-            document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + s.name;
+    for (var i = 0; i < currentstop.length; i++) {
+        if (currentstop[i].id === splitted[2]){
+            var name = currentstop[i].name;
+        }
     }
+    // Display the name of the stop
+    document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
 
     // Clear the html
     document.getElementById("allTimes").innerHTML = '';
 
     // Display max 10 arrivals
     let counter = 0;
-    for (let i = 0; i < arrivals[stop].length && counter < 10; i++) {
-        if (parseInt(arrivals[stop][i].slice(0, 2), 10) >= today.getHours() &&
-            parseInt(arrivals[stop][i].slice(2, 4), 10) >= today.getMinutes()) {
-            counter++;
-            document.getElementById("allTimes").innerHTML += '<tr> <td class="test">' +
-                arrivals[stop][i].slice(0, 2) + ' : ' + arrivals[stop][i].slice(2, 4) + '</td> </tr>';
+    for (let i = 0; i < arrivals.length && counter < 10; i++) {
+        counter++;
+        if (arrivals[i].length === 4) {
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
+                arrivals[i].slice(0,2) + ':' + arrivals[i].slice(2,4) + '</td> </tr>';
+        } else {
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
+                '</td> </tr>';
         }
     }
 

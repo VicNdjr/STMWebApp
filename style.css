@@ -147,6 +147,8 @@ tbody {
 
 .menu li:focus {
     background-color: steelblue;
+    outline: none;
+    pointer-events: none;
 }
 
 /*ouvre le sous-menu au premier clic*/
@@ -173,4 +175,26 @@ tbody {
 
 .contact{
     text-align: center;
+}
+.hour {
+    width: 350px;
+    color: black;
+}
+
+.minutes {
+    width: 350px;
+    color: #00aeef;
+}
+
+#tabs-horaires {
+    display: none;
+}
+
+#div-carte {
+    display: block;
+}
+
+#mapid {
+    height: 400px;
+    margin-right: 15px;
 }
