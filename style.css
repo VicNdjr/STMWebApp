@@ -1,25 +1,84 @@
 body {
     width: 1000px;
+    margin: auto;
+    text-align: center;
+    position: relative;
 }
 
-.header {
-    height: 300px;
+footer {
+    position: fixed;
+    height: 150px;
+    bottom: 0;
+    width: 1000px;
+    border: 1px solid #00aeef;
 }
 
-.footer {
-    float: bottom;
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,td{
+    border: 1px solid black;
+}
+
+thead{
+    font-weight : bolder;
+    display: block;
+}
+
+tbody {
+    height: 100px;
+    overflow: auto;
+    display: block;
 }
 
 .logo {
     width: 200px;
     float: left;
-    padding-top: 50px;
+    margin-top: 60px;
+    margin-left: 80px;
 }
 
 .banner {
     width: 600px;
     float: right;
+    margin-top: 15px;
+    margin-right: 15px;
 }
+
+.header {
+    height: 200px;
+    border: 5px solid #00aeef;
+}
+
+.stop{
+    width: 200px;
+}
+.code{
+    width: 50px;
+}
+.time{
+    width: 100px;
+}
+.fav{
+    width: 100px;
+}
+
+#team {
+    float: left;
+    width: 110px;
+    margin-left: 300px;
+    text-align: left;
+}
+
+#mails {
+    float: right;
+    width: 110px;
+    list-style: none;
+    margin-right: 400px;
+}
+
 
 #stops-tab{
     width: 50%;
@@ -56,39 +115,6 @@ body {
     display: none;
 }
 
-table{
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-th,td{
-    border: 1px solid black;
-}
-
-thead{
-    font-weight : bolder;
-    display: block;
-}
-
-tbody {
-    height: 100px;
-    overflow: auto;
-    display: block;
-}
-
-.stop{
-    width: 200px;
-}
-.code{
-    width: 50px;
-}
-.time{
-    width: 100px;
-}
-.fav{
-    width: 100px;
-}
-
 #menu-nav {
     overflow-y: auto;
     display: block;
@@ -116,6 +142,7 @@ tbody {
 
 .submenu{
     display:none;
+    pointer-events: auto;
 }
 
 .menu li:focus {
