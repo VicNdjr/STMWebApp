@@ -12,6 +12,10 @@
     <script type="text/javascript" src="stops.json.js"></script>
     <script type="text/javascript" src="arrivals.json.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    <script type="text/javascript" src="map.js" defer></script>
+
 </head>
 
 <body onload="fetchLines()">
@@ -103,6 +107,31 @@
 
     </div>
 
+    <footer>
+        <div class="contact">
+            <div>
+                <h3 style="color: #00aeef">EQUIPE 14</h3>
+                <ul id="team">
+                    <li>Nadjar Victoria</li>
+                    <li>Lecocq Noémie</li>
+                    <li>Dronet Elsa</li>
+                </ul>
+                <ul id="mails">
+                    <li>victoria.nadjar.1@ens.etsmtl.ca</li>
+                    <li>noemie.lecocq.1@ens.etsmtl.ca</li>
+                    <li>elsa.dronet.1@ens.etsmtl.ca</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+
+        <div id="div-carte">
+            <div id="mapid"></div>
+
+            <br><br><br><br><br><br><br>
+        </div>
+</div>
     <footer>
         <div class="contact">
             <div>
