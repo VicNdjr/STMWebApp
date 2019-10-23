@@ -6,24 +6,25 @@ body {
 }
 
 footer {
-    position: fixed;
+    position: table-row;
     height: 150px;
     bottom: 0;
     width: 1000px;
     border: 1px solid #00aeef;
 }
 
-table{
+table {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-th,td{
+th,
+td {
     border: 1px solid black;
 }
 
-thead{
-    font-weight : bolder;
+thead {
+    font-weight: bolder;
     display: block;
 }
 
@@ -33,7 +34,132 @@ tbody {
     display: block;
 }
 
-.logo {
+#team {
+    float: left;
+    width: 110px;
+    margin-left: 300px;
+    text-align: left;
+}
+
+#mails {
+    float: right;
+    width: 110px;
+    list-style: none;
+    margin-right: 400px;
+}
+
+
+/* tableaux d'arrets et de passages*/
+
+#stops-tab {
+    width: 50%;
+    margin-left: 50%;
+}
+
+#times-tab {
+    width: 50%;
+    margin-left: 50%;
+    padding-top: 20px;
+    display: none;
+}
+
+#times-tab table,
+#times-tab thead td,
+.test {
+    width: 350px;
+}
+
+#times-tab table {
+    height: 130px;
+}
+
+
+/*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
+
+#times-tab:target {
+    display: block;
+}
+
+#cross {
+    float: right;
+    text-decoration: none;
+    color: black;
+}
+
+
+/*ferme le tableau des passages lorsque l'on clique sur la croix*/
+
+#cross:target {
+    display: none;
+}
+
+
+/* gestion du menu */
+
+#menu-nav {
+    overflow-y: auto;
+    display: block;
+    width: 40%;
+    margin-left: 15px;
+    margin-right: 10px;
+    float: left;
+    height: 500px;
+}
+
+.menu {
+    padding-inline-start: 0px;
+}
+
+.menu li {
+    font-size: 30px;
+    text-align: center;
+    border: 1px solid black;
+    background-color: #00aeef;
+    list-style: none;
+}
+
+.submenu li {
+    font-size: 20px;
+    text-align: left;
+    list-style: none;
+    border: none;
+}
+
+.submenu {
+    display: none;
+    pointer-events: auto;
+}
+
+.menu li:focus {
+    background-color: steelblue;
+    outline: none;
+    pointer-events: none;
+}
+
+
+/*ouvre le sous-menu au premier clic*/
+
+.menu li:focus .submenu {
+    display: block;
+    background-color: white;
+    border-top: 1px solid black;
+}
+
+.menu li:focus .submenu li {
+    background-color: white;
+}
+
+.menu li>a {
+    pointer-events: none;
+    text-decoration: none;
+    color: black;
+}
+
+.contact {
+    text-align: center;
+}
+
+.image {
     width: 200px;
     float: left;
     margin-top: 60px;
@@ -52,139 +178,24 @@ tbody {
     border: 5px solid #00aeef;
 }
 
-.stop{
+.stop {
     width: 200px;
 }
-.code{
+
+.code {
     width: 50px;
 }
-.time{
+
+.time {
     width: 100px;
 }
-.fav{
+
+.fav {
     width: 100px;
 }
 
-#team {
-    float: left;
-    width: 110px;
-    margin-left: 300px;
-    text-align: left;
-}
 
-#mails {
-    float: right;
-    width: 110px;
-    list-style: none;
-    margin-right: 400px;
-}
-
-
-#stops-tab{
-    width: 50%;
-    margin-left: 50%;
-}
-
-#times-tab{
-    width: 50%;
-    margin-left: 50%;
-    padding-top: 20px;
-    display: none;
-}
-
-#times-tab table, #times-tab thead td, .test{
-    width: 350px;
-}
-
-#times-tab table{
-    height: 130px;
-}
-/*ouvre le tableau des passages lorsque l'on clic sur l'horaire*/
-#times-tab:target{
-    display: block;
-}
-
-#cross {
-    float: right;
-    text-decoration: none;
-    color: black;
-}
-
-/*ferme le tableau des passages lorsque l'on clique sur la croix*/
-#cross:target{
-    display: none;
-}
-
-#menu-nav {
-    overflow-y: auto;
-    display: block;
-    width: 40%;
-    margin-left: 50px;
-    float: left;
-    height: 300px;
-}
-
-.menu li {
-    font-size: 30px;
-    text-align: center;
-    font-family: Times;
-    border: 1px solid black;
-    background-color: lightskyblue;
-    list-style: none;
-}
-
-.submenu li{
-    font-size: 20px;
-    text-align: left;
-    list-style: none;
-    border: none;
-}
-
-.submenu{
-    display:none;
-    pointer-events: auto;
-}
-
-.menu li:focus {
-    background-color: steelblue;
-    outline: none;
-    pointer-events: none;
-}
-
-/*ouvre le sous-menu au premier clic*/
-.menu li:focus .submenu{
-    display: block;
-    background-color: white;
-    border-top: 1px solid black;
-}
-
-.menu li:focus .submenu li{
-    background-color: white;
-}
-
-.menu li > a {
-    pointer-events: none;
-    text-decoration: none;
-    color: black;
-}
-
-/*ferme le sous-menu au deuxième clic*/
-.menu li:focus {
-    pointer-events:none;
-}
-
-.contact{
-    text-align: center;
-}
-.hour {
-    width: 350px;
-    color: black;
-}
-
-.minutes {
-    width: 350px;
-    color: #00aeef;
-}
+/* gestion de la carte */
 
 #tabs-horaires {
     display: none;
