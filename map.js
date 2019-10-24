@@ -6,6 +6,7 @@ var line;
 var busPos = [];
 var busMarker = [];
 var nameStop;
+let timerBus;
 /**
  * Display the line and all its stops in the table
  * @param lineId Id of the line that was clicked
@@ -32,6 +33,10 @@ function affiche_carte() {
         }
         line = L.polyline(path, { color: '#00aeef' }).addTo(mymap);
         busFunction();
+        timerBus = setInterval(function() {
+            busFunction();
+        }, 10000);
+
     }
 }
 
@@ -53,6 +58,7 @@ function clearMap() {
         }
     }
     busMarker = [];
+    clearInterval(timerBus);
 }
 
 // creation carte et centrage
@@ -72,6 +78,7 @@ var iconeBus = L.icon({
     iconUrl: 'bus.png',
     iconSize: [22, 22]
 });
+
 
 function busFunction() {
     let splittedLine = currentLine.split("-");
@@ -94,6 +101,13 @@ function callAPIBus(line, dir) {
             if (this.status === 200) {
                 var bus = JSON.parse(xhr.responseText);
                 console.log(bus);
+                busPos = [];
+                for (let i = 0; i < busMarker.length; i++) {
+                    if (busMarker[i] != undefined) {
+                        mymap.removeLayer(busMarker[i]);
+                    }
+                }
+                busMarker = [];
                 for (let i = 0; i < bus.length; i++) {
                     busPos.push([parseFloat(bus[i].lat), parseFloat(bus[i].lon)]);
                     busMarker.push(L.marker(busPos[i], { icon: iconeBus }).addTo(mymap));
