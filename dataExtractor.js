@@ -1,6 +1,7 @@
 let isTimerActive = false;
 let timer;
 let lines;
+let stops;
 let arrivals;
 let geo;
 
@@ -15,8 +16,8 @@ function displaylines() {
 
     xhr.responseType = 'text';
 
-    //AFFICHE LES LIGNES
-    xhr.onreadystatechange = function(event) {
+    //ASYNCHRONE
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 lines = JSON.parse(xhr.responseText);
@@ -74,12 +75,9 @@ function openLine(line) {
 function displayOneLine(lineId, direction) {
     let line;
     for (line of lines) {
-        if (line.id === lineId && line.direction === direction) {
-            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' ' +
-                line.direction;
-            console.log(line);
-        }
-
+        if (line.id === lineId && line.direction === direction)
+            document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
+                + line.direction;
     }
     // Handle the language conversion
     let dir;
@@ -87,9 +85,6 @@ function displayOneLine(lineId, direction) {
         dir = 'W';
     else
         dir = direction.charAt(0);
-
-    const str = lineId + '-' + dir;
-
     var xhr = new XMLHttpRequest();
 
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
@@ -97,21 +92,19 @@ function displayOneLine(lineId, direction) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                currentstop = JSON.parse(xhr.responseText);
-                console.log(currentstop[0]);
-
+                currentLine = JSON.parse(xhr.responseText);
+                console.log(currentLine);
                 // Display the stops
                 document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentstop.length; i++) {
+                for (let i = 0; i < currentLine.length; i++) {
                     document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
+                        currentLine[i].name + '</td>' + '<td class="code">' + currentLine[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentLine[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
-                affiche_carte2();
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
@@ -127,7 +120,7 @@ function displayOneLine(lineId, direction) {
 function displayTimer(stop) {
     if (isTimerActive === false) {
         callAPI(stop);
-        timer = setInterval(function() {
+        timer = setInterval(function () {
             callAPI(stop);
         }, 10000);
         isTimerActive = true;
@@ -146,7 +139,7 @@ function callAPI(stop) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 arrivals = JSON.parse(xhr.responseText);
@@ -166,14 +159,10 @@ function callAPI(stop) {
 function displayOneStop(stop) {
     console.log("refresh");
     // Get actual date and time
-    let today = new Date();
-
     const splitted = stop.split("-");
-    let str = splitted[0] + '-' + splitted[1];
-
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === splitted[2]) {
-            var name = currentstop[i].name;
+    for (var i = 0; i < currentLine.length; i++) {
+        if (currentLine[i].id === splitted[2]) {
+            var name = currentLine[i].name;
         }
     }
     // Display the name of the stop
@@ -191,7 +180,7 @@ function displayOneStop(stop) {
                 arrivals[i].slice(0, 2) + ':' + arrivals[i].slice(2, 4) + '</td> </tr>';
         } else {
             document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
-                '</td> </tr>';
+                ' minute(s)</td> </tr>';
         }
     }
 

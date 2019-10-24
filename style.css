@@ -83,6 +83,9 @@ tbody {
     margin-right: 400px;
 }
 
+
+/* tableaux d'arrets et de passages*/
+
 #stops-tab {
     width: 50%;
     margin-left: 50%;
@@ -103,6 +106,7 @@ tbody {
 
 #times-tab table {
     height: 130px;
+    width: 350px;
 }
 
 
@@ -125,6 +129,9 @@ tbody {
     display: none;
 }
 
+
+/* gestion du menu */
+
 #menu-nav {
     overflow-y: auto;
     display: block;
@@ -136,13 +143,13 @@ tbody {
 }
 
 .menu {
-    padding-inline-start: 0px;
+    padding-inline-start: 0;
 }
 
 .menu li {
     font-size: 30px;
     text-align: center;
-    font-family: Times;
+    font-family: Times, serif;
     border: 1px solid black;
     background-color: #00aeef;
     list-style: none;
@@ -217,4 +224,35 @@ tbody {
 #mapid {
     height: 400px;
     margin-right: 15px;
+}
+
+.header {
+    height: 200px;
+    border: 5px solid #00aeef;
+}
+
+.stop {
+    width: 200px;
+}
+
+.code {
+    width: 50px;
+}
+
+.time {
+    width: 100px;
+}
+
+.fav {
+    width: 100px;
+}
+
+.hour {
+    width: 350px;
+    color: black;
+}
+
+.minutes {
+    width: 350px;
+    color: #00aeef;
 }
