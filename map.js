@@ -1,20 +1,13 @@
 let pos;
 let bus;
-var markers = [];
-var path = [];
-var line;
-var busPos = [];
-var busMarker = [];
-var nameStop;
+let markers = [];
+let path = [];
+let line;
+let busPos = [];
+let busMarker = [];
+let nameStop;
 let timerBus;
 let stopArrivals;
-
-
-/**
- * Display the line and all its stops in the table
- * @param lineId Id of the line that was clicked
- * @param direction Direction of the line that was clicked
- */
 
 
 // Afficher carte ou horaires
@@ -50,57 +43,54 @@ var iconeBus = L.icon({
 });
 
 
-
 // Mise à jour de la carte
-
 function affiche_carte2() {
     clearMap();
-    if (currentstop) {
+    if (currentStop) {
         console.log("affiche carte2jbfvslwdkbcn<s ");
-        for (let i = 0; i < currentstop.length; i++) {
-            var arret = [parseFloat(currentstop[i].lat), parseFloat(currentstop[i].lon)];
+        for (let i = 0; i < currentStop.length; i++) {
+            let arret = [parseFloat(currentStop[i].lat), parseFloat(currentStop[i].lon)];
             markers[i] = L.marker(arret).addTo(mymap);
-            markers[i].on('click', function(e) {
-                callAPIStops(splittedLine[1], dirLine, currentstop[i].id, i)
+            markers[i].on('click', function () {
+                callAPIStops(splittedLine[1], dirLine, currentStop[i].id, i)
             });
             path.push(arret);
 
             let splittedLine = currentLine.split("-");
             let dirLine = splittedLine[2].substr(0, 1);
-            if (dirLine == 'O') {
+            if (dirLine === 'O') {
                 dirLine = 'W';
             }
-            markers[i].bindPopup("<b>" + currentstop[i].name + "</b><br>", );
+            markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>",);
 
         }
-        line = L.polyline(path, { color: '#00aeef' }).addTo(mymap);
+        line = L.polyline(path, {color: '#00aeef'}).addTo(mymap);
         busFunction();
-        timerBus = setInterval(function() {
+        timerBus = setInterval(function () {
             busFunction();
         }, 10000);
         mymap.fitBounds([
-            [parseFloat(currentstop[0].lat), parseFloat(currentstop[0].lon)],
-            [parseFloat(currentstop[currentstop.length - 1].lat), parseFloat(currentstop[currentstop.length - 1].lon)]
+            [parseFloat(currentStop[0].lat), parseFloat(currentStop[0].lon)],
+            [parseFloat(currentStop[currentStop.length - 1].lat), parseFloat(currentStop[currentStop.length - 1].lon)]
         ]);
     }
 }
 
 // Effacer la carte
-
 function clearMap() {
     for (let i = 0; i < markers.length; i++) {
-        if (markers[i] != undefined) {
+        if (markers[i] !== undefined) {
             mymap.removeLayer(markers[i]);
         }
     }
     path = [];
-    if (line != undefined) {
+    if (line !== undefined) {
         mymap.removeLayer(line);
     }
     line = undefined;
     busPos = [];
     for (let i = 0; i < busMarker.length; i++) {
-        if (busMarker[i] != undefined) {
+        if (busMarker[i] !== undefined) {
             mymap.removeLayer(busMarker[i]);
         }
     }
@@ -110,37 +100,36 @@ function clearMap() {
 
 
 // Afficher les bus
-
 function busFunction() {
     let splittedLine = currentLine.split("-");
     let dirLine = splittedLine[2].substr(0, 1);
-    if (dirLine == 'O') {
+    if (dirLine === 'O') {
         dirLine = 'W';
     }
     callAPIBus(splittedLine[1], dirLine);
 }
 
 function callAPIBus(line, dir) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
         '?apikey=01AQ42110&route=' + line + '&direction=' + dir);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 var bus = JSON.parse(xhr.responseText);
                 busPos = [];
                 for (let i = 0; i < busMarker.length; i++) {
-                    if (busMarker[i] != undefined) {
+                    if (busMarker[i] !== undefined) {
                         mymap.removeLayer(busMarker[i]);
                     }
                 }
                 busMarker = [];
                 for (let i = 0; i < bus.length; i++) {
                     busPos.push([parseFloat(bus[i].lat), parseFloat(bus[i].lon)]);
-                    busMarker.push(L.marker(busPos[i], { icon: iconeBus }).addTo(mymap));
+                    busMarker.push(L.marker(busPos[i], {icon: iconeBus}).addTo(mymap));
                     nameStop = stopName(bus[i].next_stop);
                     busMarker[i].bindPopup("<b>Prochain arrêt : </b><br>" + nameStop);
                 }
@@ -156,9 +145,9 @@ function callAPIBus(line, dir) {
 // Pop up des arrêts
 
 function stopName(stop) {
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === stop) {
-            return currentstop[i].name;
+    for (var i = 0; i < currentStop.length; i++) {
+        if (currentStop[i].id === stop) {
+            return currentStop[i].name;
         }
     }
 }
@@ -171,7 +160,7 @@ function callAPIStops(line, dir, stop, i) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
@@ -204,5 +193,5 @@ function displayPopUp(stop, i) {
     }
 
     // Display the pop up
-    markers[i].bindPopup("<b>" + currentstop[i].name + "</b><br>" + listArrivals);
+    markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>" + listArrivals);
 }

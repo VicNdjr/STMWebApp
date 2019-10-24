@@ -8,7 +8,7 @@ let geo;
  * Fetch the data about all the bus lines and display it
  */
 function displaylines() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     lines = "";
 
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110');
@@ -84,25 +84,25 @@ function displayOneLine(lineId, direction) {
         dir = 'W';
     else
         dir = direction.charAt(0);
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
         '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                currentstop = JSON.parse(xhr.responseText);
-                console.log(currentstop[0]);
+                currentStop = JSON.parse(xhr.responseText);
+                console.log(currentStop[0]);
 
                 // Display the stops
                 document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentstop.length; i++) {
+                for (let i = 0; i < currentStop.length; i++) {
                     document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
+                        currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
                 affiche_carte2();
@@ -134,7 +134,7 @@ function displayTimer(stop) {
 
 function callAPI(stop) {
     const splitted = stop.split("-");
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
         '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
     xhr.responseType = 'text';
@@ -159,11 +159,12 @@ function callAPI(stop) {
  */
 function displayOneStop(stop) {
     console.log("refresh");
+    let name;
     // Get actual date and time
     const splitted = stop.split("-");
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === splitted[2]) {
-            var name = currentstop[i].name;
+    for (let i = 0; i < currentStop.length; i++) {
+        if (currentStop[i].id === splitted[2]) {
+            name = currentStop[i].name;
         }
     }
     // Display the name of the stop
