@@ -1,7 +1,6 @@
 let isTimerActive = false;
 let timer;
 let lines;
-//let currentstop;
 let arrivals;
 let geo;
 
@@ -64,7 +63,7 @@ function displaylines() {
 function openLine(line) {
     currentLine = line;
     const splitted = line.split("-");
-    displayOneLine(splitted[1], splitted[2])
+    displayOneLine(splitted[1], splitted[2]);
 }
 
 /**
@@ -112,6 +111,7 @@ function displayOneLine(lineId, direction) {
                         '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
+                affiche_carte2();
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);

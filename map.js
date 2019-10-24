@@ -28,9 +28,14 @@ function coucou() {
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
-    //console.log(currentstop);
+
+    affiche_carte2();
+}
+
+function affiche_carte2() {
     clearMap();
     if (currentstop) {
+        console.log("affiche carte2jbfvslwdkbcn<s ");
         for (let i = 0; i < currentstop.length; i++) {
             var arret = [parseFloat(currentstop[i].lat), parseFloat(currentstop[i].lon)];
             markers[i] = L.marker(arret).addTo(mymap);
