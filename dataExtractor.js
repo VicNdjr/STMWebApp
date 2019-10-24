@@ -62,6 +62,7 @@ function displaylines() {
  * @param line Id of the line that was clicked
  */
 function openLine(line) {
+    currentLine = line;
     const splitted = line.split("-");
     displayOneLine(splitted[1], splitted[2])
 }
