@@ -111,13 +111,8 @@ function callAPIBus(line, dir) {
                 for (let i = 0; i < bus.length; i++) {
                     busPos.push([parseFloat(bus[i].lat), parseFloat(bus[i].lon)]);
                     busMarker.push(L.marker(busPos[i], { icon: iconeBus }).addTo(mymap));
-                    busMarker[i].bindPopup("Prochain arrêt : <br>" + bus[i].next_stop);
-                    // let splittedLine = currentLine.split("-");
-                    // let dirLine = splittedLine[2].substr(0, 1);
-                    // if (dirLine == 'O') {
-                    //     dirLine = 'W';
-                    // }
-                    // stopName(splittedLine[1], dirLine, bus[i].next_stop);
+                    nameStop = stopName(bus[i].next_stop);
+                    busMarker[i].bindPopup("Prochain arrêt : <br>" + nameStop);
                 }
             }
         } else {
@@ -129,22 +124,10 @@ function callAPIBus(line, dir) {
 
 
 
-// function stopName(line, dir, stop) {
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
-//         '?apikey=01AQ42110&route=' + line + '&direction=' + dir + '&stopCode=' + stop);
-//     xhr.responseType = 'text';
-
-//     //ASYNCHRONE
-//     xhr.onreadystatechange = function(event) {
-//         if (this.readyState === XMLHttpRequest.DONE) {
-//             if (this.status === 200) {
-//                 nameStop = JSON.parse(xhr.responseText);
-//                 console.log(nameStop)
-//             }
-//         } else {
-//             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
-//         }
-//     };
-//     xhr.send();
-// }
+function stopName(stop) {
+    for (var i = 0; i < currentstop.length; i++) {
+        if (currentstop[i].id === stop) {
+            return currentstop[i].name;
+        }
+    }
+}
