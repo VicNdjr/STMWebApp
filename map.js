@@ -21,6 +21,10 @@ function affiche_horaires() {
     document.getElementById("tabs-horaires").style.display = "block";
 }
 
+function coucou() {
+    console.log("coucou");
+}
+
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
@@ -30,6 +34,9 @@ function affiche_carte() {
         for (let i = 0; i < currentstop.length; i++) {
             var arret = [parseFloat(currentstop[i].lat), parseFloat(currentstop[i].lon)];
             markers[i] = L.marker(arret).addTo(mymap);
+            markers[i].on('click', function(e) {
+                callAPIStops(splittedLine[1], dirLine, currentstop[i].id, i)
+            });
             path.push(arret);
 
             let splittedLine = currentLine.split("-");
@@ -37,10 +44,7 @@ function affiche_carte() {
             if (dirLine == 'O') {
                 dirLine = 'W';
             }
-
-            markers[i].bindPopup("<b>" + currentstop[i].name + "</b><br>");
-
-            callAPIStops(splittedLine[1], dirLine, currentstop[i].id, i)
+            markers[i].bindPopup("<b>" + currentstop[i].name + "</b><br>", );
 
         }
         line = L.polyline(path, { color: '#00aeef' }).addTo(mymap);
@@ -160,6 +164,7 @@ function callAPIStops(line, dir, stop, i) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
                 displayPopUp(stop, i);
+                console.log("arrets")
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
