@@ -3,6 +3,7 @@ let timer;
 let lines;
 let arrivals;
 let geo;
+let previousStops = {};
 
 /**
  * Fetch the data about all the bus lines and display it
@@ -84,34 +85,49 @@ function displayOneLine(lineId, direction) {
         dir = 'W';
     else
         dir = direction.charAt(0);
-    let xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
-        '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
-    xhr.responseType = 'text';
-
-    //ASYNCHRONE
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE) {
-            if (this.status === 200) {
-                currentStop = JSON.parse(xhr.responseText);
-                console.log(currentStop[0]);
-
-                // Display the stops
-                document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentStop.length; i++) {
-                    document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
-                        '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
-                }
-                affiche_carte2();
-            }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+    let str = lineId + '-' + dir;
+    //Check if we already have information about this line
+    if (previousStops[str] !== undefined) {
+        console.log("Pas besoin de call à l'API pour connaitre la ligne " + str );
+        currentStop = previousStops[str];
+        document.getElementById("allStops").innerHTML = "";
+        for (let i = 0; i < currentStop.length; i++) {
+            document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
+                currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
+                '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
         }
-    };
-    xhr.send();
+        affiche_carte2();
+    } else {
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
+            '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
+        xhr.responseType = 'text';
+
+        //ASYNCHRONE
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    currentStop = JSON.parse(xhr.responseText);
+                    previousStops[str] = currentStop;
+                    // Display the stops
+                    document.getElementById("allStops").innerHTML = "";
+                    for (let i = 0; i < currentStop.length; i++) {
+                        document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
+                            currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                            '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
+                            '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                    }
+                    affiche_carte2();
+                }
+            } else {
+                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+            }
+        };
+        xhr.send();
+    }
 }
 
 /**
@@ -160,6 +176,7 @@ function callAPI(stop) {
 function displayOneStop(stop) {
     console.log("refresh");
     let name;
+
     // Get actual date and time
     const splitted = stop.split("-");
     for (let i = 0; i < currentStop.length; i++) {
