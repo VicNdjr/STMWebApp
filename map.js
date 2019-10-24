@@ -16,13 +16,11 @@ let stopArrivals;
  * @param direction Direction of the line that was clicked
  */
 
+
+// Afficher carte ou horaires
 function affiche_horaires() {
     document.getElementById("div-carte").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "block";
-}
-
-function coucou() {
-    console.log("coucou");
 }
 
 function affiche_carte() {
@@ -31,6 +29,29 @@ function affiche_carte() {
 
     affiche_carte2();
 }
+
+
+// creation carte et centrage
+var mymap = L.map('mapid').setView([45.505, -73.600], 12.5);
+
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoiZ3RpNTI1IiwiYSI6ImNrMW05cjRlZTBlMWIzY21uYWxpNjh2dmEifQ.9BAMULLZprP9pm2-70Q84g'
+}).addTo(mymap);
+
+
+// icone de bus
+var iconeBus = L.icon({
+    iconUrl: 'bus.png',
+    iconSize: [22, 22]
+});
+
+
+
+// Mise à jour de la carte
 
 function affiche_carte2() {
     clearMap();
@@ -64,6 +85,8 @@ function affiche_carte2() {
     }
 }
 
+// Effacer la carte
+
 function clearMap() {
     for (let i = 0; i < markers.length; i++) {
         if (markers[i] != undefined) {
@@ -85,24 +108,8 @@ function clearMap() {
     clearInterval(timerBus);
 }
 
-// creation carte et centrage
-var mymap = L.map('mapid').setView([45.505, -73.600], 12.5);
 
-
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1IjoiZ3RpNTI1IiwiYSI6ImNrMW05cjRlZTBlMWIzY21uYWxpNjh2dmEifQ.9BAMULLZprP9pm2-70Q84g'
-}).addTo(mymap);
-
-
-// icone de bus
-var iconeBus = L.icon({
-    iconUrl: 'bus.png',
-    iconSize: [22, 22]
-});
-
+// Afficher les bus
 
 function busFunction() {
     let splittedLine = currentLine.split("-");
@@ -146,6 +153,7 @@ function callAPIBus(line, dir) {
 }
 
 
+// Pop up des arrêts
 
 function stopName(stop) {
     for (var i = 0; i < currentstop.length; i++) {
@@ -154,7 +162,6 @@ function stopName(stop) {
         }
     }
 }
-
 
 
 function callAPIStops(line, dir, stop, i) {
@@ -169,7 +176,6 @@ function callAPIStops(line, dir, stop, i) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
                 displayPopUp(stop, i);
-                console.log("arrets")
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
