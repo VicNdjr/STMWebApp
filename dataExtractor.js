@@ -1,7 +1,8 @@
 let isTimerActive = false;
 let timer;
 let lines;
-let currentstop;
+let currentLine;
+let stops;
 let arrivals;
 
 /**
@@ -96,14 +97,14 @@ function displayOneLine(lineId, direction) {
     xhr.onreadystatechange = function (event) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                currentstop = JSON.parse(xhr.responseText);
-                console.log(currentstop);
+                currentLine = JSON.parse(xhr.responseText);
+                console.log(currentLine);
                 // Display the stops
                 document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentstop.length; i++) {
+                for (let i = 0; i < currentLine.length; i++) {
                     document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
+                        currentLine[i].name + '</td>' + '<td class="code">' + currentLine[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentLine[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
             }
@@ -165,9 +166,9 @@ function displayOneStop(stop) {
     const splitted = stop.split("-");
     let str = splitted[0] + '-' + splitted[1];
 
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === splitted[2]){
-            var name = currentstop[i].name;
+    for (var i = 0; i < currentLine.length; i++) {
+        if (currentLine[i].id === splitted[2]){
+            var name = currentLine[i].name;
         }
     }
     // Display the name of the stop
@@ -185,7 +186,7 @@ function displayOneStop(stop) {
                 arrivals[i].slice(0,2) + ':' + arrivals[i].slice(2,4) + '</td> </tr>';
         } else {
             document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
-                '</td> </tr>';
+                ' minute(s)</td> </tr>';
         }
     }
 
