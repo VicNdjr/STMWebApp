@@ -49,7 +49,13 @@ function displaylines() {
                     }
                 }
             } else {
-                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById("allLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("localLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("nightLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("expressLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("shuttleLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("shuttleOrLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
             }
         }
     };
@@ -89,7 +95,7 @@ function displayOneLine(lineId, direction) {
     let str = lineId + '-' + dir;
     //Check if we already have information about this line
     if (previousStops[str] !== undefined) {
-        console.log("Pas besoin de call à l'API pour connaitre la ligne " + str );
+        console.log("Pas besoin de call à l'API pour connaitre la ligne " + str);
         currentStop = previousStops[str];
         document.getElementById("allStops").innerHTML = "";
         for (let i = 0; i < currentStop.length; i++) {
@@ -121,9 +127,11 @@ function displayOneLine(lineId, direction) {
                             '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                     }
                     affiche_carte2();
+                } else {
+                    console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                    document.getElementById("allStops").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
                 }
-            } else {
-                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+
             }
         };
         xhr.send();
@@ -161,9 +169,10 @@ function callAPI(stop) {
             if (this.status === 200) {
                 arrivals = JSON.parse(xhr.responseText);
                 displayOneStop(stop);
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById("allTimes").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
@@ -174,7 +183,7 @@ function callAPI(stop) {
  * @param stop Id of the stop that was clicked
  */
 function displayOneStop(stop) {
-    console.log("refresh");
+    console.log("Rafraichissement des horaires de passage.");
     let name;
 
     // Get actual date and time
