@@ -133,9 +133,10 @@ function callAPIBus(line, dir) {
                     nameStop = stopName(bus[i].next_stop);
                     busMarker[i].bindPopup("<b>Prochain arrêt : </b><br>" + nameStop);
                 }
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById('mapid').innerHTML = 'La carte n\'a pas pu être chargée.';
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
@@ -165,9 +166,10 @@ function callAPIStops(line, dir, stop, i) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
                 displayPopUp(stop, i);
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                markers[i].bindPopup('L\'information n\'a pas pu être chargée.')
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
