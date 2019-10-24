@@ -134,87 +134,87 @@ function displayOneLine(lineId, direction) {
 
             }
         };
-            xhr.send();
-        }
-    }
-
-    /**
-     * Launch a timer to actualise the time table every 5 seconds
-     * @param stop Id of the stop that was clicked
-     */
-    function displayTimer(stop) {
-        if (isTimerActive === false) {
-            callAPI(stop);
-            timer = setInterval(function () {
-                callAPI(stop);
-            }, 10000);
-            isTimerActive = true;
-        } else {
-            clearInterval(timer);
-            isTimerActive = false;
-            displayTimer(stop);
-        }
-    }
-
-    function callAPI(stop) {
-        const splitted = stop.split("-");
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
-            '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
-        xhr.responseType = 'text';
-
-        //ASYNCHRONE
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    arrivals = JSON.parse(xhr.responseText);
-                    displayOneStop(stop);
-                } else {
-                    console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
-                    document.getElementById("allTimes").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
-                }
-            }
-        };
         xhr.send();
     }
+}
 
-    /**
-     * Display the stop and its timetable
-     * @param stop Id of the stop that was clicked
-     */
-    function displayOneStop(stop) {
-        console.log("Rafraichissement des horaires de passage.");
-        let name;
+/**
+ * Launch a timer to actualise the time table every 5 seconds
+ * @param stop Id of the stop that was clicked
+ */
+function displayTimer(stop) {
+    if (isTimerActive === false) {
+        callAPI(stop);
+        timer = setInterval(function () {
+            callAPI(stop);
+        }, 10000);
+        isTimerActive = true;
+    } else {
+        clearInterval(timer);
+        isTimerActive = false;
+        displayTimer(stop);
+    }
+}
 
-        // Get actual date and time
-        const splitted = stop.split("-");
-        for (let i = 0; i < currentStop.length; i++) {
-            if (currentStop[i].id === splitted[2]) {
-                name = currentStop[i].name;
-            }
-        }
-        // Display the name of the stop
-        document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
+function callAPI(stop) {
+    const splitted = stop.split("-");
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
+        '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
+    xhr.responseType = 'text';
 
-        // Clear the html
-        document.getElementById("allTimes").innerHTML = '';
-
-        // Display max 10 arrivals
-        let counter = 0;
-        for (let i = 0; i < arrivals.length && counter < 10; i++) {
-            counter++;
-            if (arrivals[i].length === 4) {
-                document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
-                    arrivals[i].slice(0, 2) + ':' + arrivals[i].slice(2, 4) + '</td> </tr>';
+    //ASYNCHRONE
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                arrivals = JSON.parse(xhr.responseText);
+                displayOneStop(stop);
             } else {
-                document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
-                    ' minute(s)</td> </tr>';
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById("allTimes").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
             }
         }
+    };
+    xhr.send();
+}
 
-        // If no arrival have been found
-        if (counter === 0) {
-            document.getElementById("allTimes").innerHTML = '<tr>Il n\'y a plus de bus ' +
-                'aujourd\'hui ! </tr>';
+/**
+ * Display the stop and its timetable
+ * @param stop Id of the stop that was clicked
+ */
+function displayOneStop(stop) {
+    console.log("Rafraichissement des horaires de passage.");
+    let name;
+
+    // Get actual date and time
+    const splitted = stop.split("-");
+    for (let i = 0; i < currentStop.length; i++) {
+        if (currentStop[i].id === splitted[2]) {
+            name = currentStop[i].name;
         }
     }
+    // Display the name of the stop
+    document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
+
+    // Clear the html
+    document.getElementById("allTimes").innerHTML = '';
+
+    // Display max 10 arrivals
+    let counter = 0;
+    for (let i = 0; i < arrivals.length && counter < 10; i++) {
+        counter++;
+        if (arrivals[i].length === 4) {
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
+                arrivals[i].slice(0, 2) + ':' + arrivals[i].slice(2, 4) + '</td> </tr>';
+        } else {
+            document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
+                ' minute(s)</td> </tr>';
+        }
+    }
+
+    // If no arrival have been found
+    if (counter === 0) {
+        document.getElementById("allTimes").innerHTML = '<tr>Il n\'y a plus de bus ' +
+            'aujourd\'hui ! </tr>';
+    }
+}

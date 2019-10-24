@@ -10,12 +10,17 @@ let timerBus;
 let stopArrivals;
 
 
-// Afficher carte ou horaires
+/**
+ * Display the planning
+ */
 function affiche_horaires() {
     document.getElementById("div-carte").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "block";
 }
 
+/**
+ * Display the map
+ */
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
@@ -43,7 +48,9 @@ var iconeBus = L.icon({
 });
 
 
-// Mise à jour de la carte
+/**
+ * Update the map
+ */
 function affiche_carte2() {
     clearMap();
     if (currentStop) {
@@ -76,7 +83,9 @@ function affiche_carte2() {
     }
 }
 
-// Effacer la carte
+/**
+ * Clear the map
+ */
 function clearMap() {
     for (let i = 0; i < markers.length; i++) {
         if (markers[i] !== undefined) {
@@ -99,7 +108,9 @@ function clearMap() {
 }
 
 
-// Afficher les bus
+/**
+ * Display the busses on the map
+ */
 function busFunction() {
     let splittedLine = currentLine.split("-");
     let dirLine = splittedLine[2].substr(0, 1);
@@ -109,6 +120,11 @@ function busFunction() {
     callAPIBus(splittedLine[1], dirLine);
 }
 
+/**
+ * Make a call to the API
+ * @param line The bus line
+ * @param dir The direction of the bus line
+ */
 function callAPIBus(line, dir) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
@@ -142,9 +158,11 @@ function callAPIBus(line, dir) {
     xhr.send();
 }
 
-
-// Pop up des arrêts
-
+/**
+ * Handle the stop pop up
+ * @param stop The number of the stop
+ * @returns The name of the stop
+ */
 function stopName(stop) {
     for (var i = 0; i < currentStop.length; i++) {
         if (currentStop[i].id === stop) {
@@ -153,7 +171,13 @@ function stopName(stop) {
     }
 }
 
-
+/**
+ * Make a call to the API
+ * @param line The bus line
+ * @param dir The direction of the bus line
+ * @param stop The number of the stop
+ * @param i The number associated with the marker
+ */
 function callAPIStops(line, dir, stop, i) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
@@ -175,6 +199,11 @@ function callAPIStops(line, dir, stop, i) {
     xhr.send();
 }
 
+/**
+ * Display the pop up infos
+ * @param stop The number of the stop
+ * @param i The number associated with the marker
+ */
 function displayPopUp(stop, i) {
 
     // Display max 10 arrivals
