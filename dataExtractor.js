@@ -1,7 +1,6 @@
 let isTimerActive = false;
 let timer;
 let lines;
-let stops;
 let arrivals;
 let geo;
 
@@ -92,19 +91,21 @@ function displayOneLine(lineId, direction) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function(event) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                currentLine = JSON.parse(xhr.responseText);
-                console.log(currentLine);
+                currentstop = JSON.parse(xhr.responseText);
+                console.log(currentstop[0]);
+
                 // Display the stops
                 document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentLine.length; i++) {
+                for (let i = 0; i < currentstop.length; i++) {
                     document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentLine[i].name + '</td>' + '<td class="code">' + currentLine[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentLine[i].id +
+                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
+                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
                         '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
                 }
+                affiche_carte2();
             }
         } else {
             console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
@@ -160,9 +161,9 @@ function displayOneStop(stop) {
     console.log("refresh");
     // Get actual date and time
     const splitted = stop.split("-");
-    for (var i = 0; i < currentLine.length; i++) {
-        if (currentLine[i].id === splitted[2]) {
-            var name = currentLine[i].name;
+    for (var i = 0; i < currentstop.length; i++) {
+        if (currentstop[i].id === splitted[2]) {
+            var name = currentstop[i].name;
         }
     }
     // Display the name of the stop
