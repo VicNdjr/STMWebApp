@@ -144,9 +144,9 @@ function displayOneLine(lineId, direction) {
  */
 function displayTimer(stop) {
     if (isTimerActive === false) {
-        callAPI(stop);
+        fetchArrivals(stop);
         timer = setInterval(function () {
-            callAPI(stop);
+            fetchArrivals(stop);
         }, 10000);
         isTimerActive = true;
     } else {
@@ -156,7 +156,11 @@ function displayTimer(stop) {
     }
 }
 
-function callAPI(stop) {
+/**
+ * Fetch the data about all the bus arrivals and store it in a variable
+ * @param stop Id of the stop that was clicked
+ */
+function fetchArrivals(stop) {
     const splitted = stop.split("-");
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
