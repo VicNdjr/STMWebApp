@@ -3,7 +3,7 @@ let timer;
 let lines;
 //let currentstop;
 let arrivals;
-let geo;
+//let lastLine;
 
 /**
  * Fetch the data about all the bus lines and display it
@@ -62,6 +62,7 @@ function displaylines() {
  * @param line Id of the line that was clicked
  */
 function openLine(line) {
+    currentLine = line;
     const splitted = line.split("-");
     displayOneLine(splitted[1], splitted[2])
 }
@@ -72,12 +73,13 @@ function openLine(line) {
  * @param direction Direction of the line that was clicked
  */
 function displayOneLine(lineId, direction) {
+
     let line;
     for (line of lines) {
         if (line.id === lineId && line.direction === direction){
             document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
                 + line.direction;
-            console.log(line);
+            //console.log(line);
         }
 
     }
@@ -101,7 +103,7 @@ function displayOneLine(lineId, direction) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 currentstop = JSON.parse(xhr.responseText);
-                console.log(currentstop[0]);
+                //console.log(currentstop[0]);
 
                 // Display the stops
                 document.getElementById("allStops").innerHTML = "";

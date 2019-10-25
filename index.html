@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css"/>
     <title>Title</title>
-    <script type='text/javascript' >let currentstop;</script>
+    <script type='text/javascript' >
+        let currentstop;
+        let currentLine;
+    </script>
     <script type="text/javascript" src="testAPI.js"></script>
     <script type="text/javascript" src="dataExtractor.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
@@ -25,7 +28,7 @@
         <nav id="menu-nav">
             <ul class="menu">
                 <li tabindex="0"><a href="#" title="#">Toutes les lignes</a>
-                    <ul class="submenu" id="allLines">
+                    <ul class="submenu" id="allLines" onclick="loadMap()">
                     </ul>
                 </li>
                 <li tabindex="0"><a href="#" title="#">Réseau local</a>
