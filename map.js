@@ -54,7 +54,6 @@ var iconeBus = L.icon({
 function affiche_carte2() {
     clearMap();
     if (currentStop) {
-        console.log("affiche carte2jbfvslwdkbcn<s ");
         for (let i = 0; i < currentStop.length; i++) {
             let arret = [parseFloat(currentStop[i].lat), parseFloat(currentStop[i].lon)];
             markers[i] = L.marker(arret).addTo(mymap);
