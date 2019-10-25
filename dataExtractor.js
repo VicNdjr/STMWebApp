@@ -1,23 +1,23 @@
 let isTimerActive = false;
 let timer;
 let lines;
-//let currentstop;
 let arrivals;
-//let lastLine;
+let geo;
+let previousStops = {};
 
 /**
  * Fetch the data about all the bus lines and display it
  */
 function displaylines() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     lines = "";
 
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110');
 
     xhr.responseType = 'text';
 
-    //AFFICHE LES LIGNES
-    xhr.onreadystatechange = function (event) {
+    //ASYNCHRONE
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 lines = JSON.parse(xhr.responseText);
@@ -49,7 +49,13 @@ function displaylines() {
                     }
                 }
             } else {
-                console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById("allLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("localLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("nightLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("expressLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("shuttleLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
+                document.getElementById("shuttleOrLines").innerHTML += 'Une erreur s\'est produite. Nous n\'avons pas pu charger les lignes.';
             }
         }
     };
@@ -64,7 +70,7 @@ function displaylines() {
 function openLine(line) {
     currentLine = line;
     const splitted = line.split("-");
-    displayOneLine(splitted[1], splitted[2])
+    displayOneLine(splitted[1], splitted[2]);
 }
 
 /**
@@ -73,15 +79,11 @@ function openLine(line) {
  * @param direction Direction of the line that was clicked
  */
 function displayOneLine(lineId, direction) {
-
     let line;
     for (line of lines) {
-        if (line.id === lineId && line.direction === direction){
+        if (line.id === lineId && line.direction === direction)
             document.getElementById("textChosenLine").innerText = line.id + ' ' + line.name + ' '
                 + line.direction;
-            //console.log(line);
-        }
-
     }
     // Handle the language conversion
     let dir;
@@ -90,35 +92,50 @@ function displayOneLine(lineId, direction) {
     else
         dir = direction.charAt(0);
 
-    const str = lineId + '-' + dir;
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
-        '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
-    xhr.responseType = 'text';
-
-    //ASYNCHRONE
-    xhr.onreadystatechange = function (event) {
-        if (this.readyState === XMLHttpRequest.DONE) {
-            if (this.status === 200) {
-                currentstop = JSON.parse(xhr.responseText);
-                //console.log(currentstop[0]);
-
-                // Display the stops
-                document.getElementById("allStops").innerHTML = "";
-                for (let i = 0; i < currentstop.length; i++) {
-                    document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                        currentstop[i].name + '</td>' + '<td class="code">' + currentstop[i].id +
-                        '<td class="time" id="' + lineId + '-' + dir + '-' + currentstop[i].id +
-                        '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
-                }
-            }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+    let str = lineId + '-' + dir;
+    //Check if we already have information about this line
+    if (previousStops[str] !== undefined) {
+        console.log("Pas besoin de call à l'API pour connaitre la ligne " + str);
+        currentStop = previousStops[str];
+        document.getElementById("allStops").innerHTML = "";
+        for (let i = 0; i < currentStop.length; i++) {
+            document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
+                currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
+                '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
         }
-    };
-    xhr.send();
+        affiche_carte2();
+    } else {
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
+            '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
+        xhr.responseType = 'text';
+
+        //ASYNCHRONE
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    currentStop = JSON.parse(xhr.responseText);
+                    previousStops[str] = currentStop;
+                    // Display the stops
+                    document.getElementById("allStops").innerHTML = "";
+                    for (let i = 0; i < currentStop.length; i++) {
+                        document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
+                            currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                            '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
+                            '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                    }
+                    affiche_carte2();
+                } else {
+                    console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                    document.getElementById("allStops").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
+                }
+
+            }
+        };
+        xhr.send();
+    }
 }
 
 /**
@@ -127,9 +144,9 @@ function displayOneLine(lineId, direction) {
  */
 function displayTimer(stop) {
     if (isTimerActive === false) {
-        callAPI(stop);
+        fetchArrivals(stop);
         timer = setInterval(function () {
-            callAPI(stop);
+            fetchArrivals(stop);
         }, 10000);
         isTimerActive = true;
     } else {
@@ -139,22 +156,27 @@ function displayTimer(stop) {
     }
 }
 
-function callAPI(stop) {
+/**
+ * Fetch the data about all the bus arrivals and store it in a variable
+ * @param stop Id of the stop that was clicked
+ */
+function fetchArrivals(stop) {
     const splitted = stop.split("-");
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
         '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function (event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 arrivals = JSON.parse(xhr.responseText);
                 displayOneStop(stop);
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById("allTimes").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
@@ -165,16 +187,14 @@ function callAPI(stop) {
  * @param stop Id of the stop that was clicked
  */
 function displayOneStop(stop) {
-    console.log("refresh");
+    console.log("Rafraichissement des horaires de passage.");
+    let name;
+
     // Get actual date and time
-    let today = new Date();
-
     const splitted = stop.split("-");
-    let str = splitted[0] + '-' + splitted[1];
-
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === splitted[2]){
-            var name = currentstop[i].name;
+    for (let i = 0; i < currentStop.length; i++) {
+        if (currentStop[i].id === splitted[2]) {
+            name = currentStop[i].name;
         }
     }
     // Display the name of the stop
@@ -189,10 +209,10 @@ function displayOneStop(stop) {
         counter++;
         if (arrivals[i].length === 4) {
             document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
-                arrivals[i].slice(0,2) + ':' + arrivals[i].slice(2,4) + '</td> </tr>';
+                arrivals[i].slice(0, 2) + ':' + arrivals[i].slice(2, 4) + '</td> </tr>';
         } else {
             document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
-                '</td> </tr>';
+                ' minute(s)</td> </tr>';
         }
     }
 

@@ -1,83 +1,33 @@
 let pos;
 let bus;
-var markers = [];
-var path = [];
-var line;
-var busPos = [];
-var busMarker = [];
-var nameStop;
+let markers = [];
+let path = [];
+let line;
+let busPos = [];
+let busMarker = [];
+let nameStop;
 let timerBus;
 let stopArrivals;
-var lastline;
 
+
+/**
+ * Display the planning
+ */
 function affiche_horaires() {
     document.getElementById("div-carte").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "block";
 }
 
+/**
+ * Display the map
+ */
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
-    //console.log(currentstop);
-    //clearMap();
-    //loadMap();
-    /*if(currentLine!==lastline){
-        window.setInterval(loadMap, 2000);
-    }*/
+
+    affiche_carte2();
 }
 
-function loadMap(){
-    clearMap();
-    if(currentstop){
-        lastline=currentLine;
-        for(let i=0;i<currentstop.length;i++){
-            var arret = [parseFloat(currentstop[i].lat),parseFloat(currentstop[i].lon)];
-            //console.log(arret);
-            markers[i] = L.marker(arret).addTo(mymap);
-            path.push(arret);
-
-            let splittedLine = currentLine.split("-");
-            let dirLine = splittedLine[2].substr(0, 1);
-            if (dirLine == 'O') {
-                dirLine = 'W';
-            }
-            markers[i].bindPopup("<b>"+currentstop[i].name+"</b><br>Liste des prochains arrêts.");
-            callAPIStops(splittedLine[1], dirLine, currentstop[i].id, i); //APPEL API
-        }
-        line = L.polyline(path, { color: '#00aeef' }).addTo(mymap);
-        busFunction();
-        timerBus = setInterval(function() {
-            busFunction(); //APPEL API
-        }, 10000);
-        mymap.fitBounds([
-            [parseFloat(currentstop[0].lat), parseFloat(currentstop[0].lon)],
-            [parseFloat(currentstop[currentstop.length - 1].lat), parseFloat(currentstop[currentstop.length - 1].lon)]
-        ]);
-    }
-}
-
-
-
-function clearMap() {
-    for(let i=0;i<markers.length;i++){
-        if (markers[i]!= undefined) {
-            mymap.removeLayer(markers[i]);
-        }
-    }
-    path = [];
-    if (line != undefined) {
-        mymap.removeLayer(line);
-    }
-    line = undefined;
-    busPos = [];
-    for (let i = 0; i < busMarker.length; i++) {
-        if (busMarker[i] != undefined) {
-            mymap.removeLayer(busMarker[i]);
-        }
-    }
-    busMarker = [];
-    clearInterval(timerBus);
-}
 
 // creation carte et centrage
 var mymap = L.map('mapid').setView([45.505, -73.600], 12.5);
@@ -94,60 +44,140 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 // icone de bus
 var iconeBus = L.icon({
     iconUrl: 'bus.png',
-    iconSize: [20, 20]
+    iconSize: [22, 22]
 });
 
+
+/**
+ * Update the map
+ */
+function affiche_carte2() {
+    clearMap();
+    if (currentStop) {
+        console.log("affiche carte2jbfvslwdkbcn<s ");
+        for (let i = 0; i < currentStop.length; i++) {
+            let arret = [parseFloat(currentStop[i].lat), parseFloat(currentStop[i].lon)];
+            markers[i] = L.marker(arret).addTo(mymap);
+            markers[i].on('click', function () {
+                callAPIStops(splittedLine[1], dirLine, currentStop[i].id, i)
+            });
+            path.push(arret);
+
+            let splittedLine = currentLine.split("-");
+            let dirLine = splittedLine[2].substr(0, 1);
+            if (dirLine === 'O') {
+                dirLine = 'W';
+            }
+            markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>",);
+
+        }
+        line = L.polyline(path, {color: '#00aeef'}).addTo(mymap);
+        busFunction();
+        timerBus = setInterval(function () {
+            busFunction();
+        }, 10000);
+        mymap.fitBounds([
+            [parseFloat(currentStop[0].lat), parseFloat(currentStop[0].lon)],
+            [parseFloat(currentStop[currentStop.length - 1].lat), parseFloat(currentStop[currentStop.length - 1].lon)]
+        ]);
+    }
+}
+
+/**
+ * Clear the map
+ */
+function clearMap() {
+    for (let i = 0; i < markers.length; i++) {
+        if (markers[i] !== undefined) {
+            mymap.removeLayer(markers[i]);
+        }
+    }
+    path = [];
+    if (line !== undefined) {
+        mymap.removeLayer(line);
+    }
+    line = undefined;
+    busPos = [];
+    for (let i = 0; i < busMarker.length; i++) {
+        if (busMarker[i] !== undefined) {
+            mymap.removeLayer(busMarker[i]);
+        }
+    }
+    busMarker = [];
+    clearInterval(timerBus);
+}
+
+
+/**
+ * Display the busses on the map
+ */
 function busFunction() {
     let splittedLine = currentLine.split("-");
     let dirLine = splittedLine[2].substr(0, 1);
-    if (dirLine == 'O') {
+    if (dirLine === 'O') {
         dirLine = 'W';
     }
     callAPIBus(splittedLine[1], dirLine);
 }
 
+/**
+ * Make a call to the API
+ * @param line The bus line
+ * @param dir The direction of the bus line
+ */
 function callAPIBus(line, dir) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
         '?apikey=01AQ42110&route=' + line + '&direction=' + dir);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 var bus = JSON.parse(xhr.responseText);
                 busPos = [];
                 for (let i = 0; i < busMarker.length; i++) {
-                    if (busMarker[i] != undefined) {
+                    if (busMarker[i] !== undefined) {
                         mymap.removeLayer(busMarker[i]);
                     }
                 }
                 busMarker = [];
                 for (let i = 0; i < bus.length; i++) {
                     busPos.push([parseFloat(bus[i].lat), parseFloat(bus[i].lon)]);
-                    busMarker.push(L.marker(busPos[i], { icon: iconeBus }).addTo(mymap));
+                    busMarker.push(L.marker(busPos[i], {icon: iconeBus}).addTo(mymap));
                     nameStop = stopName(bus[i].next_stop);
                     busMarker[i].bindPopup("<b>Prochain arrêt : </b><br>" + nameStop);
                 }
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                document.getElementById('mapid').innerHTML = 'La carte n\'a pas pu être chargée.';
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
 }
 
-
-
+/**
+ * Handle the stop pop up
+ * @param stop The number of the stop
+ * @returns The name of the stop
+ */
 function stopName(stop) {
-    for (var i = 0; i < currentstop.length; i++) {
-        if (currentstop[i].id === stop) {
-            return currentstop[i].name;
+    for (var i = 0; i < currentStop.length; i++) {
+        if (currentStop[i].id === stop) {
+            return currentStop[i].name;
         }
     }
 }
 
+/**
+ * Make a call to the API
+ * @param line The bus line
+ * @param dir The direction of the bus line
+ * @param stop The number of the stop
+ * @param i The number associated with the marker
+ */
 function callAPIStops(line, dir, stop, i) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
@@ -155,19 +185,25 @@ function callAPIStops(line, dir, stop, i) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function(event) {
+    xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
                 displayPopUp(stop, i);
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                markers[i].bindPopup('L\'information n\'a pas pu être chargée.')
             }
-        } else {
-            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
         }
     };
     xhr.send();
 }
 
+/**
+ * Display the pop up infos
+ * @param stop The number of the stop
+ * @param i The number associated with the marker
+ */
 function displayPopUp(stop, i) {
 
     // Display max 10 arrivals
@@ -188,5 +224,5 @@ function displayPopUp(stop, i) {
     }
 
     // Display the pop up
-    markers[i].bindPopup("<b>" + currentstop[i].name + "</b><br>" + listArrivals);
+    markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>" + listArrivals);
 }
