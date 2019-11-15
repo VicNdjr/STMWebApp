@@ -126,8 +126,7 @@ function busFunction() {
  */
 function callAPIBus(line, dir) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
-        '?apikey=01AQ42110&route=' + line + '&direction=' + dir);
+    xhr.open('GET', 'http://localhost:8080/positions/' + line + '/' + dir);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
@@ -179,8 +178,7 @@ function stopName(stop) {
  */
 function callAPIStops(line, dir, stop, i) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
-        '?apikey=01AQ42110&route=' + line + '&direction=' + dir + '&stopCode=' + stop);
+    xhr.open('GET', 'http://localhost:8080/arrivals/' + line + '/' + dir + '/' + stop);
     xhr.responseType = 'text';
 
     //ASYNCHRONE

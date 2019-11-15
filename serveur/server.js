@@ -90,6 +90,29 @@ http.createServer(function (req, res) {
             console.log("Error: " + err.message);
         });
 
+    } else if (req.url.startsWith("/positions")){
+        var url_split = req.url.split('/');
+        var route = url_split[2];
+        var direction = url_split[3];
+        http.get('http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
+            '?apikey=01AQ42110&route=' + route + '&direction=' + direction, (resp) => {
+            let data = '';
+
+            // A chunk of data has been recieved.
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            // The whole response has been received. Print out the result.
+            resp.on('end', () => {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(data);
+            });
+
+        }).on("error", (err) => {
+            console.log("Error: " + err.message);
+        });
+
     } else {
         res.writeHead(404, {"Content-Type": "text/html"});
         res.end("No Page Found");
