@@ -12,7 +12,7 @@ function displaylines() {
     let xhr = new XMLHttpRequest();
     lines = "";
 
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110');
+    xhr.open('GET', 'http://localhost:8080/lines');
 
     xhr.responseType = 'text';
 
@@ -108,8 +108,7 @@ function displayOneLine(lineId, direction) {
     } else {
         let xhr = new XMLHttpRequest();
 
-        xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMStops.py' +
-            '?apikey=01AQ42110&route=' + lineId + '&direction=' + dir);
+        xhr.open('GET', 'http://localhost:8080/stops/' + lineId + '/' + dir);
         xhr.responseType = 'text';
 
         //ASYNCHRONE
@@ -163,8 +162,7 @@ function displayTimer(stop) {
 function fetchArrivals(stop) {
     const splitted = stop.split("-");
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
-        '?apikey=01AQ42110&route=' + splitted[0] + '&direction=' + splitted[1] + '&stopCode=' + splitted[2]);
+    xhr.open('GET', 'http://localhost:8080/arrivals/' + splitted[0] + '/' + splitted[1] + '/' + splitted[2]);
     xhr.responseType = 'text';
 
     //ASYNCHRONE
