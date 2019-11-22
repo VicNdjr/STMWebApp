@@ -2,7 +2,6 @@ let isTimerActive = false;
 let timer;
 let lines;
 let arrivals;
-let geo;
 let previousStops = {};
 
 /**

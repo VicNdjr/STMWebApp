@@ -1,8 +1,28 @@
-var http = require('http');
-var fs = require('fs');
-var path = require('path');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+function displayPage(resp){
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+        data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(data);
+    });
+}
 
 http.createServer(function (req, res) {
+    let direction;
+    let route;
+    let url_split;
+    let imagePath;
+    let fileStream;
     const http = require('http');
     if (req.url === "/") {
         fs.readFile("../client/index.html", "UTF-8", function (err, html) {
@@ -10,19 +30,19 @@ http.createServer(function (req, res) {
             res.end(html);
         });
     } else if (req.url.match("\.css$")) {
-        var cssPath = path.join(__dirname, '../client', req.url);
-        var fileStream = fs.createReadStream(cssPath, "UTF-8");
+        let cssPath = path.join(__dirname, '../client', req.url);
+        fileStream = fs.createReadStream(cssPath, "UTF-8");
         res.writeHead(200, {"Content-Type": "text/css"});
         fileStream.pipe(res);
 
     } else if (req.url.match("\.png$")) {
-        var imagePath = path.join(__dirname, '../client', req.url);
-        var fileStream = fs.createReadStream(imagePath);
+        imagePath = path.join(__dirname, '../client', req.url);
+        fileStream = fs.createReadStream(imagePath);
         res.writeHead(200, {"Content-Type": "image/png"});
         fileStream.pipe(res);
     } else if (req.url.match("\.js$")) {
-        var imagePath = path.join(__dirname, '../client', req.url);
-        var fileStream = fs.createReadStream(imagePath);
+        imagePath = path.join(__dirname, '../client', req.url);
+        fileStream = fs.createReadStream(imagePath);
         res.writeHead(200, {"Content-Type": "application/javascript"});
         fileStream.pipe(res);
     } else if (req.url === "/lines") { //TODO : Actually use this code
@@ -44,9 +64,9 @@ http.createServer(function (req, res) {
             console.log("Error: " + err.message);
         });
     } else if (req.url.startsWith("/stops")){
-        var url_split = req.url.split('/');
-        var route = url_split[2];
-        var direction = url_split[3];
+        url_split = req.url.split('/');
+        route = url_split[2];
+        direction = url_split[3];
         http.get('http://teaching-api.juliengs.ca/gti525/STMStops.py' +
             '?apikey=01AQ42110&route=' + route + '&direction=' + direction, (resp) => {
             let data = '';
@@ -67,10 +87,10 @@ http.createServer(function (req, res) {
         });
 
     } else if (req.url.startsWith("/arrivals")){
-        var url_split = req.url.split('/');
-        var route = url_split[2];
-        var direction = url_split[3];
-        var stop = url_split[4];
+        url_split = req.url.split('/');
+        route = url_split[2];
+        direction = url_split[3];
+        let stop = url_split[4];
         http.get('http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
             '?apikey=01AQ42110&route=' + route + '&direction=' + direction + '&stopCode=' + stop, (resp) => {
             let data = '';
@@ -91,9 +111,9 @@ http.createServer(function (req, res) {
         });
 
     } else if (req.url.startsWith("/positions")){
-        var url_split = req.url.split('/');
-        var route = url_split[2];
-        var direction = url_split[3];
+        url_split = req.url.split('/');
+        route = url_split[2];
+        direction = url_split[3];
         http.get('http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
             '?apikey=01AQ42110&route=' + route + '&direction=' + direction, (resp) => {
             let data = '';
