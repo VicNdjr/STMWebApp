@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>STM</title>
+    <script type='text/javascript'>
+        let currentStop;
+        let currentLine;
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+    <script type="text/javascript" src="scripts/lines.js"></script>
+    <script type="text/javascript" src="scripts/map.js" defer></script>
+    <script type="text/javascript" src="scripts/favorites.js" defer></script>
+    <script type="text/javascript" src="scripts/planning.js" defer></script>
+
+</head>
+
+<body onload="displayLines()">
+<br>
+<div class="header">
+    <img src="images/logo.png" alt="Image not found" class="logo">
+    <img src="images/banniere1.png" alt="Image not found" class="banner">
+</div>
+
+<div class="infos">
+    <br><br><br>
+
+    <nav id="menu-nav">
+        <ul class="menu">
+            <li tabindex="0"><a href="#">Toutes les lignes</a>
+                <ul class="submenu" id="allLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#">Réseau local</a>
+                <ul class="submenu" id="localLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#">Réseau de nuit</a>
+                <ul class="submenu" id="nightLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#">Réseau express</a>
+                <ul class="submenu" id="expressLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#">Navettes</a>
+                <ul class="submenu" id="shuttleLines">
+                </ul>
+            </li>
+            <li tabindex="0"><a href="#">Navettes Or</a>
+                <ul class="submenu" id="shuttleOrLines">
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <span id="textChosenLine">Choisissez une ligne dans la liste</span>
+    <br><br>
+    <button class="btn btn-light" id="horaires" onclick="affiche_horaires();">Horaires</button>
+    <button class="btn btn-light" id="carte" onclick="affiche_carte();">Carte</button>
+    <button class="btn btn-light" id="favoris" onclick="display_fav();">Favoris</button>
+    <br><br>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Vous avez déjà 10 favoris.</p>
+        </div>
+
+    </div>
+
+    <div id="tabs-horaires">
+        <div id="stops-tab">
+            <table>
+                <thead>
+                <tr>
+                    <th class="stop">Arrêt</th>
+                    <th class="code">Code</th>
+                    <th class="time">Horaire</th>
+                    <th class="fav">Favoris</th>
+                </tr>
+                </thead>
+                <tbody id="allStops">
+                </tbody>
+            </table>
+        </div>
+
+        <!--_______TABLEAU PASSAGES_______-->
+        <div id="times-tab" class="times-tab">
+            <table>
+                <thead>
+                <tr>
+                    <th id="textChosenStop">Prochains passages pour l'arrêt</th>
+                    <th><a id="cross" href="#stops-tab">&#x2716;</a></th>
+                </tr>
+                </thead>
+                <tbody id="allTimes">
+                </tbody>
+            </table>
+        </div>
+
+        <br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+
+    <div id="div-carte">
+        <div id="mapid"></div>
+
+        <br><br><br><br><br><br><br>
+    </div>
+
+    <div id="div-favoris">
+        <br><br><br><br><br><br><br>
+    </div>
+</div>
+<!--TODO: Modifier le footer, il se place n'importe comment-->
+<footer>
+    <div class="contact">
+        <div>
+            <h3 style="color: #00aeef">EQUIPE 14</h3>
+            <ul id="team">
+                <li>Nadjar Victoria</li>
+                <li>Lecocq Noémie</li>
+                <li>Dronet Elsa</li>
+            </ul>
+            <ul id="mails">
+                <li>victoria.nadjar.1@ens.etsmtl.ca</li>
+                <li>noemie.lecocq.1@ens.etsmtl.ca</li>
+                <li>elsa.dronet.1@ens.etsmtl.ca</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+
+</html>
