@@ -256,3 +256,10 @@ tbody {
     width: 350px;
     color: #00aeef;
 }
+
+.favoris-tab {
+    width: 50%;
+    margin-left: 50%;
+    padding-top: 20px;
+    display: block;
+}

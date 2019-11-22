@@ -8,6 +8,8 @@ let busMarker = [];
 let nameStop;
 let timerBus;
 let stopArrivals;
+let favoris = ["arret1", "arret2", "arret3"];
+
 
 
 /**
@@ -15,6 +17,7 @@ let stopArrivals;
  */
 function affiche_horaires() {
     document.getElementById("div-carte").style.display = "none";
+    document.getElementById("div-favoris").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "block";
 }
 
@@ -23,9 +26,21 @@ function affiche_horaires() {
  */
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
+    document.getElementById("div-favoris").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
 
     affiche_carte2();
+}
+
+
+// affiche favoris 
+
+function affiche_favoris() {
+    document.getElementById("div-carte").style.display = "none";
+    document.getElementById("tabs-horaires").style.display = "none";
+    document.getElementById("div-favoris").style.display = "block";
+
+    tabs_favoris();
 }
 
 
@@ -57,7 +72,7 @@ function affiche_carte2() {
         for (let i = 0; i < currentStop.length; i++) {
             let arret = [parseFloat(currentStop[i].lat), parseFloat(currentStop[i].lon)];
             markers[i] = L.marker(arret).addTo(mymap);
-            markers[i].on('click', function () {
+            markers[i].on('click', function() {
                 callAPIStops(splittedLine[1], dirLine, currentStop[i].id, i)
             });
             path.push(arret);
@@ -67,12 +82,12 @@ function affiche_carte2() {
             if (dirLine === 'O') {
                 dirLine = 'W';
             }
-            markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>",);
+            markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>", );
 
         }
-        line = L.polyline(path, {color: '#00aeef'}).addTo(mymap);
+        line = L.polyline(path, { color: '#00aeef' }).addTo(mymap);
         busFunction();
-        timerBus = setInterval(function () {
+        timerBus = setInterval(function() {
             busFunction();
         }, 10000);
         mymap.fitBounds([
@@ -131,7 +146,7 @@ function callAPIBus(line, dir) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 var bus = JSON.parse(xhr.responseText);
@@ -144,7 +159,7 @@ function callAPIBus(line, dir) {
                 busMarker = [];
                 for (let i = 0; i < bus.length; i++) {
                     busPos.push([parseFloat(bus[i].lat), parseFloat(bus[i].lon)]);
-                    busMarker.push(L.marker(busPos[i], {icon: iconeBus}).addTo(mymap));
+                    busMarker.push(L.marker(busPos[i], { icon: iconeBus }).addTo(mymap));
                     nameStop = stopName(bus[i].next_stop);
                     busMarker[i].bindPopup("<b>Prochain arrêt : </b><br>" + nameStop);
                 }
@@ -184,7 +199,7 @@ function callAPIStops(line, dir, stop, i) {
     xhr.responseType = 'text';
 
     //ASYNCHRONE
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 stopArrivals = JSON.parse(xhr.responseText);
@@ -224,4 +239,20 @@ function displayPopUp(stop, i) {
 
     // Display the pop up
     markers[i].bindPopup("<b>" + currentStop[i].name + "</b><br>" + listArrivals);
+}
+
+
+
+// creation tableaux des favoris
+
+function tabs_favoris() {
+    var id = "";
+    document.getElementById("div-favoris").innerHTML = "";
+
+    for (let i = 0; i < favoris.length; i++) {
+        id = "times" + i;
+        document.getElementById("div-favoris").innerHTML += '<div class="favoris-tab"> <table> <thead> <tr> <th id="name">Prochains passages pour le favori : arret 1 </th>  <th><a id="cross" href="#stops-tab">&#x2716;</a></th> </tr> </thead> <tbody id="times' + i + '"> </tbody> </table> <\div>';
+        document.getElementById(id).innerHTML += '<tr> <td class="hour">' +
+            '08' + ':' + '12' + '</td> </tr>';
+    }
 }
