@@ -45,7 +45,7 @@ http.createServer(function (req, res) {
         fileStream = fs.createReadStream(imagePath);
         res.writeHead(200, {"Content-Type": "application/javascript"});
         fileStream.pipe(res);
-    } else if (req.url === "/lines") { //TODO : Actually use this code
+    } else if (req.url === "/lines") {
         http.get('http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110', (resp) => {
             let data = '';
 
@@ -139,3 +139,5 @@ http.createServer(function (req, res) {
     }
 
 }).listen(8080);
+
+console.log("http://localhost:8080/");

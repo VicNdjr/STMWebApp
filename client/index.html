@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script type="text/javascript" src="map.js" defer></script>
+    <script type="text/javascript" src="favoris.js" defer></script>
 
 </head>
 
@@ -59,6 +60,7 @@
         <br><br>
         <button class="btn btn-light" id="horaires" onclick="affiche_horaires();">Horaires</button>
         <button class="btn btn-light" id="carte" onclick="affiche_carte();">Carte</button>
+        <button class="btn btn-light" id="favoris" onclick="display_fav();">Favoris</button>
         <br><br>
 
         <div id="tabs-horaires">
@@ -97,6 +99,23 @@
 
         <div id="div-carte">
             <div id="mapid"></div>
+
+            <br><br><br><br><br><br><br>
+        </div>
+
+        <div id="div-favoris">
+            <!-- <div class="favoris-tab">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="name">Prochains passages pour le favori : arret 1 </th>
+                            <th><a id="cross" href="#stops-tab">&#x2716;</a></th>
+                        </tr>
+                    </thead>
+                    <tbody id="times">
+                    </tbody>
+                </table>
+            </div> -->
 
             <br><br><br><br><br><br><br>
         </div>

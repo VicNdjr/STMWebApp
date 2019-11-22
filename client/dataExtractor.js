@@ -92,16 +92,29 @@ function displayOneLine(lineId, direction) {
         dir = direction.charAt(0);
 
     let str = lineId + '-' + dir;
+    let id;
+    let element;
+    let html;
     //Check if we already have information about this line
     if (previousStops[str] !== undefined) {
         console.log("Pas besoin de call à l'API pour connaitre la ligne " + str);
         currentStop = previousStops[str];
         document.getElementById("allStops").innerHTML = "";
         for (let i = 0; i < currentStop.length; i++) {
-            document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+            id = lineId + '-' + dir + '-' + currentStop[i].id;
+            element = document.getElementById("allStops");
+            html = '<tr> <td class="stop">' +
+                currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id + '</td>' +
                 '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
-                '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td>';
+            if (is_fav(id) === false){
+               html +=  '<td class="fav"><button class="button-grey" id=" a-' +
+                id + '" onclick="add_fav(this.id)">+</button></td></tr>';
+            } else {
+                html +=  '<td class="fav"><button class="button-green" id=" a-' +
+                    id + '" onclick="add_fav(this.id)">&#10003;</button></td></tr>'
+            }
+            element.innerHTML += html;
         }
         affiche_carte2();
     } else {
@@ -119,15 +132,26 @@ function displayOneLine(lineId, direction) {
                     // Display the stops
                     document.getElementById("allStops").innerHTML = "";
                     for (let i = 0; i < currentStop.length; i++) {
-                        document.getElementById("allStops").innerHTML += '<tr> <td class="stop">' +
-                            currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id +
+                        id = lineId + '-' + dir + '-' + currentStop[i].id;
+                        element = document.getElementById("allStops");
+                        html = '<tr> <td class="stop">' +
+                            currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id + '</td>' +
                             '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
-                            '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td> <td class="fav">+</td>';
+                            '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td>';
+                        if (is_fav(id) === false){
+                            html +=  '<td class="fav"><button class="button-grey" id=" a-' +
+                                id + '" onclick="add_fav(this.id)">+</button></td></tr>';
+                        } else {
+                        html +=  '<td class="fav"><button class="button-green" id=" a-' +
+                            id + '" onclick="add_fav(this.id)">&#10003;</button></td></tr>'
+                    }
+                        element.innerHTML += html;
                     }
                     affiche_carte2();
                 } else {
                     console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
-                    document.getElementById("allStops").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
+                    document.getElementById("allStops").innerHTML =
+                        'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
                 }
 
             }

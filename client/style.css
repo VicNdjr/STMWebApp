@@ -69,6 +69,16 @@ tbody {
     width: 100px;
 }
 
+.button-grey {
+    background-color: #dfe5e4;
+    border-radius: 15px;
+}
+
+.button-green {
+    background-color: #46af00;
+    border-radius: 15px;
+}
+
 #team {
     float: left;
     width: 110px;
@@ -255,4 +265,11 @@ tbody {
 .minutes {
     width: 350px;
     color: #00aeef;
+}
+
+.favoris-tab {
+    width: 50%;
+    margin-left: 50%;
+    padding-top: 20px;
+    display: block;
 }

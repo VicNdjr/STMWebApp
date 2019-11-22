@@ -14,6 +14,7 @@ let stopArrivals;
  */
 function affiche_horaires() {
     document.getElementById("div-carte").style.display = "none";
+    document.getElementById("div-favoris").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "block";
 }
 
@@ -22,6 +23,7 @@ function affiche_horaires() {
  */
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
+    document.getElementById("div-favoris").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
 
     affiche_carte2();
