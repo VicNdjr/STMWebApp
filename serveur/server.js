@@ -2,58 +2,9 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
+let check;
+
 http.createServer(function (req, res) {
-
-    /*
-    var mongoose = require('mongoose');
-    try {
-        mongoose.connect('mongodb://localhost/mongoose_basics', { useNewUrlParser: true });
-    } catch (error) {
-        handleError(error);
-    }
-    var Schema = mongoose.Schema;
-
-    var testSchema = new Schema({
-        category: String,
-        direction: String,
-        id: Number,
-        name: String,
-    });
-    var Test = mongoose.model('Test', testSchema);
-    module.exports = Test;
-
-    var lineSchema = new Schema({
-        category: String,
-        direction: String,
-        id: Number,
-        name: String,
-    });
-    var Line = mongoose.model('Line', lineSchema);
-    module.exports = Line;
-
-    var stopSchema = new Schema({
-        line: {
-            accessible: Boolean,
-            lon: Number,
-            lat: Number,
-            id: Number,
-            name: String,
-        }
-    });
-    var Stop = mongoose.model('Stop', stopSchema);
-    module.exports = Stop;
-
-    var arrivalSchema = new Schema({
-        stop: {
-            hour: Array,
-        }
-    });
-    var Arrival = mongoose.model('Arrival', arrivalSchema);
-    module.exports = Arrival;
-    */
-
-
-
     const http = require('http');
     if (req.url === "/") {
         fs.readFile("../client/index.html", "UTF-8", function (err, html) {
@@ -77,115 +28,123 @@ http.createServer(function (req, res) {
         res.writeHead(200, {"Content-Type": "application/javascript"});
         fileStream.pipe(res);
     } else if (req.url === "/lines") { //TODO : Actually use this code
-        var monurl = 'http://teaching-api.juliengs.ca/gti525/STMLines.py';
-        var blabla = 'bla';
-        var MongoClient = require('mongodb').MongoClient;
-        var url = "mongodb://localhost:27017/";
-
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("mydb");
-            if(dbo.collection("url").find({myurl : monurl}, function(err, res) {
-                if (err) throw err;
-                console.log(res.myurl);
-            })!=null){
-                console.log("trouvé!");
-            }else{
-                http.get('http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110', (resp) => {
-                    let data = '';
-
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                        dbo.collection("url").insertOne({myurl : monurl}, function(err, res) {
-                            if (err) throw err;
-                            console.log("1 document inserted");
-                        });
-                    });
-
-                    // The whole response has been received. Print out the result.
-                    resp.on('end', () => {
-                        res.setHeader('Content-Type', 'application/json');
-                        res.end(data);
-                    });
-
-                }).on("error", (err) => {
-                    console.log("Error: " + err.message);
+        var monurl = 'http://teaching-api.juliengs.ca/gti525/STMLines.py' + '?apikey=01AQ42110';
+        data = checkDb(monurl);//PB --> data = undefined car checkDb asynchrone
+        console.log("Résultat de checkDb :"+data);
+        if(data){
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+            console.log("data récupérée");
+        }else{
+            http.get(monurl, (resp) => {
+                let data = '';
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
                 });
-            }
-            db.close();
-        });
-
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(data);
+                    addToDb(monurl,data);
+                });
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
+            });
+        }
     } else if (req.url.startsWith("/stops")){
         var url_split = req.url.split('/');
         var route = url_split[2];
         var direction = url_split[3];
-        http.get('http://teaching-api.juliengs.ca/gti525/STMStops.py' +
-            '?apikey=01AQ42110&route=' + route + '&direction=' + direction, (resp) => {
-            let data = '';
-
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
+        monurl = 'http://teaching-api.juliengs.ca/gti525/STMStops.py'+
+            '?apikey=01AQ42110&route=' + route + '&direction=' + direction;
+        data = checkDb(monurl);
+        if(data){
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+            console.log("data récupérée");
+        }else {
+            http.get(monurl, (resp) => {
+                let data = '';
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(data);
+                    addToDb(monurl,data);
+                });
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
             });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-                res.setHeader('Content-Type', 'application/json');
-                res.end(data);
-            });
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
-
+        }
     } else if (req.url.startsWith("/arrivals")){
         var url_split = req.url.split('/');
         var route = url_split[2];
         var direction = url_split[3];
         var stop = url_split[4];
-        http.get('http://teaching-api.juliengs.ca/gti525/STMArrivals.py' +
-            '?apikey=01AQ42110&route=' + route + '&direction=' + direction + '&stopCode=' + stop, (resp) => {
-            let data = '';
+        monurl = 'http://teaching-api.juliengs.ca/gti525/STMArrivals.py'+
+            '?apikey=01AQ42110&route=' + route + '&direction=' + direction + '&stopCode=' + stop;
+        var data = checkDb(monurl);
+        console.log("Résultat de checkDb :"+data);
+        if(data){
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+            console.log("data récupérée");
+        }else {
+            http.get(monurl, (resp) => {
+                let data = '';
 
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(data);
+                    addToDb(monurl,data);
+                });
+
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
             });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-                res.setHeader('Content-Type', 'application/json');
-                res.end(data);
-            });
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
+        }
 
     } else if (req.url.startsWith("/positions")){
         var url_split = req.url.split('/');
         var route = url_split[2];
         var direction = url_split[3];
-        http.get('http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
-            '?apikey=01AQ42110&route=' + route + '&direction=' + direction, (resp) => {
-            let data = '';
+        monurl = 'http://teaching-api.juliengs.ca/gti525/STMPositions.py' +
+            '?apikey=01AQ42110&route=' + route + '&direction=' + direction;
+        data = checkDb(monurl);
+        if(data!=null){//jamais exécuté
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+            console.log("data récupérée");
+        }else {
+            http.get(monurl, (resp) => {
+                let data = '';
 
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(data);
+                    addToDb(monurl,data);
+                });
+
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
             });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-                res.setHeader('Content-Type', 'application/json');
-                res.end(data);
-            });
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
-
+        }
     } else {
         res.writeHead(404, {"Content-Type": "text/html"});
         res.end("No Page Found");
@@ -193,3 +152,56 @@ http.createServer(function (req, res) {
 
 }).listen(8080);
 
+var checkDb = function (monurl){
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("url").find({myurl : monurl}).toArray( function(err, result) {
+            check = result;
+            if(check.length>0){
+                console.log("trouvé");
+                return getData(monurl);
+            }
+            else {
+                console.log("pas trouvé");
+                return 0;
+            }
+        });
+        //affiche la BDD
+        /*dbo.collection("url").find({}).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+        });*/
+    });
+
+};
+
+var addToDb = function (monurl, data) {
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        var myobj = {myurl : monurl, mydata : data};
+        dbo.collection("url").insertOne(myobj, function(err, res) {
+            if (err) throw err;
+            console.log("Ajouté : "+myobj);
+        });
+    });
+};
+
+var getData = function (monurl) {
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("url").find({myurl : monurl}, /*{projection: {_id : 0, myurl : 0, mydata : 1}}*/).toArray( function(err, result) {
+            var data = result[0].mydata;
+            console.log("Data :"+result[0].mydata);
+            return data;
+        });
+    });
+};
