@@ -1,8 +1,9 @@
+// TODO: Commenter
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-function displayPage(resp){
+function displayPage(resp) {
     let data = '';
 
     // A chunk of data has been recieved.
@@ -63,7 +64,7 @@ http.createServer(function (req, res) {
         }).on("error", (err) => {
             console.log("Error: " + err.message);
         });
-    } else if (req.url.startsWith("/stops")){
+    } else if (req.url.startsWith("/stops")) {
         url_split = req.url.split('/');
         route = url_split[2];
         direction = url_split[3];
@@ -86,7 +87,7 @@ http.createServer(function (req, res) {
             console.log("Error: " + err.message);
         });
 
-    } else if (req.url.startsWith("/arrivals")){
+    } else if (req.url.startsWith("/arrivals")) {
         url_split = req.url.split('/');
         route = url_split[2];
         direction = url_split[3];
@@ -110,7 +111,7 @@ http.createServer(function (req, res) {
             console.log("Error: " + err.message);
         });
 
-    } else if (req.url.startsWith("/positions")){
+    } else if (req.url.startsWith("/positions")) {
         url_split = req.url.split('/');
         route = url_split[2];
         direction = url_split[3];

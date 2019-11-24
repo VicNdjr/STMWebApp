@@ -77,7 +77,7 @@ function openLine(line) {
  * @param lineId Id of the line that was clicked
  * @param direction Direction of the line that was clicked
  */
-function displayOneLine(lineId, direction) {
+function displayOneLine(lineId, direction) { // TODO: Optimiser un peu (code dupliqué)
     let line;
     for (line of lines) {
         if (line.id === lineId && line.direction === direction)
@@ -95,6 +95,7 @@ function displayOneLine(lineId, direction) {
     let id;
     let element;
     let html;
+    let elementId = "allTimes";
     //Check if we already have information about this line
     if (previousStops[str] !== undefined) {
         console.log("Pas besoin de call à l'API pour connaitre la ligne " + str);
@@ -106,12 +107,12 @@ function displayOneLine(lineId, direction) {
             html = '<tr> <td class="stop">' +
                 currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id + '</td>' +
                 '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
-                '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td>';
-            if (is_fav(id) === false){
-               html +=  '<td class="fav"><button class="button-grey" id=" a-' +
-                id + '" onclick="add_fav(this.id)">+</button></td></tr>';
+                '" onclick="displayTimer(this.id,\'' + elementId + '\')"><a href="#times-tab">[...]</a></td>';
+            if (is_fav(id) === false) {
+                html += '<td class="fav"><button class="button-grey" id=" a-' +
+                    id + '" onclick="add_fav(this.id)">+</button></td></tr>';
             } else {
-                html +=  '<td class="fav"><button class="button-green" id=" a-' +
+                html += '<td class="fav"><button class="button-green" id=" a-' +
                     id + '" onclick="add_fav(this.id)">&#10003;</button></td></tr>'
             }
             element.innerHTML += html;
@@ -137,14 +138,14 @@ function displayOneLine(lineId, direction) {
                         html = '<tr> <td class="stop">' +
                             currentStop[i].name + '</td>' + '<td class="code">' + currentStop[i].id + '</td>' +
                             '<td class="time" id="' + lineId + '-' + dir + '-' + currentStop[i].id +
-                            '" onclick="displayTimer(this.id)"><a href="#times-tab">[...]</a></td>';
-                        if (is_fav(id) === false){
-                            html +=  '<td class="fav"><button class="button-grey" id=" a-' +
+                            '" onclick="displayTimer(this.id,\'' + elementId + '\')"><a href="#times-tab">[...]</a></td>';
+                        if (is_fav(id) === false) {
+                            html += '<td class="fav"><button class="button-grey" id=" a-' +
                                 id + '" onclick="add_fav(this.id)">+</button></td></tr>';
                         } else {
-                        html +=  '<td class="fav"><button class="button-green" id=" a-' +
-                            id + '" onclick="add_fav(this.id)">&#10003;</button></td></tr>'
-                    }
+                            html += '<td class="fav"><button class="button-green" id=" a-' +
+                                id + '" onclick="add_fav(this.id)">&#10003;</button></td></tr>'
+                        }
                         element.innerHTML += html;
                     }
                     affiche_carte2();
@@ -163,26 +164,28 @@ function displayOneLine(lineId, direction) {
 /**
  * Launch a timer to actualise the time table every 5 seconds
  * @param stop Id of the stop that was clicked
+ * @param elementId
  */
-function displayTimer(stop) {
+function displayTimer(stop, elementId) {
     if (isTimerActive === false) {
-        fetchArrivals(stop);
+        fetchArrivals(stop, elementId);
         timer = setInterval(function () {
-            fetchArrivals(stop);
+            fetchArrivals(stop, elementId);
         }, 10000);
         isTimerActive = true;
     } else {
         clearInterval(timer);
         isTimerActive = false;
-        displayTimer(stop);
+        displayTimer(stop, elementId);
     }
 }
 
 /**
  * Fetch the data about all the bus arrivals and store it in a variable
  * @param stop Id of the stop that was clicked
+ * @param elementId
  */
-function fetchArrivals(stop) {
+function fetchArrivals(stop, elementId) {
     const splitted = stop.split("-");
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:8080/arrivals/' + splitted[0] + '/' + splitted[1] + '/' + splitted[2]);
@@ -193,10 +196,10 @@ function fetchArrivals(stop) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 arrivals = JSON.parse(xhr.responseText);
-                displayOneStop(stop);
+                displayOneStop(stop, elementId);
             } else {
                 console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
-                document.getElementById("allTimes").innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
+                document.getElementById(elementId).innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
             }
         }
     };
@@ -206,8 +209,9 @@ function fetchArrivals(stop) {
 /**
  * Display the stop and its timetable
  * @param stop Id of the stop that was clicked
+ * @param elementId
  */
-function displayOneStop(stop) {
+function displayOneStop(stop, elementId) {
     console.log("Rafraichissement des horaires de passage.");
     let name;
 
@@ -222,24 +226,24 @@ function displayOneStop(stop) {
     document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
 
     // Clear the html
-    document.getElementById("allTimes").innerHTML = '';
+    document.getElementById(elementId).innerHTML = '';
 
     // Display max 10 arrivals
     let counter = 0;
     for (let i = 0; i < arrivals.length && counter < 10; i++) {
         counter++;
         if (arrivals[i].length === 4) {
-            document.getElementById("allTimes").innerHTML += '<tr> <td class="hour">' +
+            document.getElementById(elementId).innerHTML += '<tr> <td class="hour">' +
                 arrivals[i].slice(0, 2) + ':' + arrivals[i].slice(2, 4) + '</td> </tr>';
         } else {
-            document.getElementById("allTimes").innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
+            document.getElementById(elementId).innerHTML += '<tr> <td class="minutes">' + arrivals[i] +
                 ' minute(s)</td> </tr>';
         }
     }
 
     // If no arrival have been found
     if (counter === 0) {
-        document.getElementById("allTimes").innerHTML = '<tr>Il n\'y a plus de bus ' +
+        document.getElementById(elementId).innerHTML = '<tr>Il n\'y a plus de bus ' +
             'aujourd\'hui ! </tr>';
     }
 }

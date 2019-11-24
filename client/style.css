@@ -196,7 +196,7 @@ tbody {
     background-color: white;
 }
 
-.menu li>a {
+.menu li > a {
     pointer-events: none;
     text-decoration: none;
     color: black;
@@ -269,7 +269,18 @@ tbody {
 
 .favoris-tab {
     width: 50%;
-    margin-left: 50%;
+    margin-left: 53%;
     padding-top: 20px;
     display: block;
+}
+
+.favoris-tab table,
+.favoris-tab thead td,
+.test {
+    width: 350px;
+}
+
+.favoris-tab table {
+    height: 130px;
+    width: 350px;
 }
