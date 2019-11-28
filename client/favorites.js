@@ -1,11 +1,12 @@
 // TODO: Commenter
-let favoris = [];
+let favorites = [];
+let timeouts = [];
 
 function display_fav() {
     document.getElementById("div-carte").style.display = "none";
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-favoris").style.display = "block";
-
+    clearTimers();
     tabs_fav();
 }
 
@@ -15,8 +16,8 @@ function tabs_fav() {
     document.getElementById("div-favoris").innerHTML = "";
     let stop;
     let name;
-    for (let i = 0; i < favoris.length; i++) {
-        stop = favoris[i].substring(3);
+    for (let i = 0; i < favorites.length; i++) {
+        stop = favorites[i].substring(3);
         id = "times" + i;
         const splitted = stop.split("-");
         // TODO: Chercher le nom dans le cache (ne marche pour l'instant qu'avec la ligne qui est ouverte)
@@ -30,21 +31,39 @@ function tabs_fav() {
             splitted[1] + '</th>  ' +
             '<th><a id="cross" href="#stops-tab">&#x2716;</a></th> </tr> </thead> <tbody id="times' + i + '"> ' +
             '</tbody> </table> <\div>';
-        displayTimer(stop, id);
+        displayFavorites(stop, id);
     }
+}
 
+/**
+ * Launch a timer to actualise the time table every 5 seconds
+ * @param stop Id of the stop that was clicked
+ * @param elementId
+ */
+function displayFavorites(stop, elementId) {
+    fetchArrivals(stop, elementId);
+    timeouts.push(setInterval(function () {
+        fetchArrivals(stop, elementId);
+    }, 10000));
+}
+
+function clearTimers() {
+    for (let i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
+    timeouts = [];
 }
 
 function add_fav(stop) {
     let found = false;
-    for (let i = 0; i < favoris.length; i++) {
-        if (favoris[i] === stop) {
-            favoris.splice(i, 1);
+    for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i] === stop) {
+            favorites.splice(i, 1);
             found = true;
         }
     }
     if (!found) {
-        favoris.push(stop);
+        favorites.push(stop);
         document.getElementById(stop).outerHTML = '<button class="button-green" id="' +
             stop + '" onclick="add_fav(this.id)">&#10003;</button>';
     } else {
@@ -55,8 +74,8 @@ function add_fav(stop) {
 
 function is_fav(stop) {
     let found = false;
-    for (let i = 0; i < favoris.length; i++) {
-        if (favoris[i] === stop) {
+    for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i] === stop) {
             found = true;
         }
     }

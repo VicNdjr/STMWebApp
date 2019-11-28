@@ -9,16 +9,6 @@ let nameStop;
 let timerBus;
 let stopArrivals;
 
-
-/**
- * Display the planning
- */
-function affiche_horaires() {
-    document.getElementById("div-carte").style.display = "none";
-    document.getElementById("div-favoris").style.display = "none";
-    document.getElementById("tabs-horaires").style.display = "block";
-}
-
 /**
  * Display the map
  */
@@ -26,7 +16,7 @@ function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
     document.getElementById("div-favoris").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
-
+    clearTimers();
     affiche_carte2();
 }
 

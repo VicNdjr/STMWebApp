@@ -9,7 +9,7 @@
         let currentStop;
         let currentLine;
     </script>
-    <script type="text/javascript" src="dataExtractor.js"></script>
+    <script type="text/javascript" src="lines.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
           crossorigin=""/>
@@ -17,11 +17,12 @@
             integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
             crossorigin=""></script>
     <script type="text/javascript" src="map.js" defer></script>
-    <script type="text/javascript" src="favoris.js" defer></script>
+    <script type="text/javascript" src="favorites.js" defer></script>
+    <script type="text/javascript" src="planning.js" defer></script>
 
 </head>
 
-<body onload="displaylines()">
+<body onload="displayLines()">
 <br>
 <div class="header">
     <img src="logo.png" alt="Image not found" class="logo">
@@ -108,7 +109,7 @@
     </div>
 
     <div id="div-favoris">
-        <!-- <div class="favoris-tab">
+        <!-- <div class="favorites-tab">
             <table>
                 <thead>
                     <tr>
