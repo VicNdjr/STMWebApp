@@ -35,7 +35,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 // icone de bus
 let iconeBus = L.icon({
-    iconUrl: 'bus.png',
+    iconUrl: 'images/bus.png',
     iconSize: [22, 22]
 });
 

@@ -63,9 +63,18 @@ function add_fav(stop) {
         }
     }
     if (!found) {
-        favorites.push(stop);
-        document.getElementById(stop).outerHTML = '<button class="button-green" id="' +
-            stop + '" onclick="add_fav(this.id)">&#10003;</button>';
+        if (favorites.length >= 10) {
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+        } else {
+            favorites.push(stop);
+            document.getElementById(stop).outerHTML = '<button class="button-green" id="' +
+                stop + '" onclick="add_fav(this.id)">&#10003;</button>';
+        }
     } else {
         document.getElementById(stop).outerHTML = '<button class="button-grey" id="' +
             stop + '" onclick="add_fav(this.id)">+</button>';
