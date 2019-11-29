@@ -1,4 +1,4 @@
-let pos;
+// TODO: Remplacer les noms de fonctions par de l'anglais
 let bus;
 let markers = [];
 let path = [];
@@ -9,28 +9,20 @@ let nameStop;
 let timerBus;
 let stopArrivals;
 
-
-/**
- * Display the planning
- */
-function affiche_horaires() {
-    document.getElementById("div-carte").style.display = "none";
-    document.getElementById("tabs-horaires").style.display = "block";
-}
-
 /**
  * Display the map
  */
 function affiche_carte() {
     document.getElementById("tabs-horaires").style.display = "none";
+    document.getElementById("div-favoris").style.display = "none";
     document.getElementById("div-carte").style.display = "block";
-
+    clearTimers();
     affiche_carte2();
 }
 
 
 // creation carte et centrage
-var mymap = L.map('mapid').setView([45.505, -73.600], 12.5);
+let mymap = L.map('mapid').setView([45.505, -73.600], 12.5);
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -42,8 +34,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 
 // icone de bus
-var iconeBus = L.icon({
-    iconUrl: 'bus.png',
+let iconeBus = L.icon({
+    iconUrl: 'images/bus.png',
     iconSize: [22, 22]
 });
 
@@ -133,7 +125,7 @@ function callAPIBus(line, dir) {
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                var bus = JSON.parse(xhr.responseText);
+                let bus = JSON.parse(xhr.responseText);
                 busPos = [];
                 for (let i = 0; i < busMarker.length; i++) {
                     if (busMarker[i] !== undefined) {
@@ -162,7 +154,7 @@ function callAPIBus(line, dir) {
  * @returns The name of the stop
  */
 function stopName(stop) {
-    for (var i = 0; i < currentStop.length; i++) {
+    for (let i = 0; i < currentStop.length; i++) {
         if (currentStop[i].id === stop) {
             return currentStop[i].name;
         }
