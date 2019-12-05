@@ -55,8 +55,9 @@ function tabs_fav() {
             }
         };
         xhr.send();
-
-        displayFavorites(stop, id);
+        if (favorites.length > 0) {
+            displayFavorites(stop, id);
+        }
     }
 }
 
