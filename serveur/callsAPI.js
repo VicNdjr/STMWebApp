@@ -40,10 +40,10 @@ function checkDb(apiUrl, path, res, test) {
             if (result.length > 0) {
                 var data = result[0].mydata;
                 res.end(data);
-                console.log("data récupérée");
+                console.log("Donnée récupérée depuis le cache.");
             } else { //sinon on fait le call à l'API
                 getData(apiUrl, path, res, test, dbo);
-                console.log("nope");
+                console.log("La donnée n'est pas présente dans le cache.");
             }
         });
     });
@@ -53,7 +53,7 @@ function addToDb (path, data, dbo) {
     var newEntry = {mypath : path, mydata : data, user : "01AQ42110"};
     dbo.collection("cache").insertOne(newEntry, function(err, res) {
         if (err) throw err;
-        console.log("Data ajoutée !");
+        console.log("Nouvelle donnée ajoutée à la base de donnée !");
     });
 }
 
