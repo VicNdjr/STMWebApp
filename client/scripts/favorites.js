@@ -1,24 +1,27 @@
 let currentStop;
 let timeouts = [];
 let favorites = [];
-let xhr = new XMLHttpRequest();
+function loadFavorites() {
+    let xhr = new XMLHttpRequest();
 
-xhr.open('GET', 'http://localhost:8080/favorites/' + '01AQ42110');
-xhr.responseType = 'text';
+    xhr.open('GET', 'http://localhost:8080/favorites/' + '01AQ42110');
+    xhr.responseType = 'text';
 
-//ASYNCHRONE
-xhr.onreadystatechange = function () {
-    if (this.readyState === XMLHttpRequest.DONE) {
-        if (this.status === 200) {
-            if (xhr.responseText !== '') {
-                favorites = JSON.parse(xhr.responseText);
+    //ASYNCHRONE
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                if (xhr.responseText !== '') {
+                    favorites = JSON.parse(xhr.responseText);
+                    sendNotifications();
+                }
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
             }
-        } else {
-            console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
         }
-    }
-};
-xhr.send();
+    };
+    xhr.send();
+}
 
 function display_fav() {
     document.getElementById("div-carte").style.display = "none";

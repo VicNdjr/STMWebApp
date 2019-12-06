@@ -1,4 +1,3 @@
-// TODO: Remplacer les noms de fonctions par de l'anglais
 let bus;
 let markers = [];
 let path = [];

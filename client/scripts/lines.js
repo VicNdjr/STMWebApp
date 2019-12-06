@@ -59,8 +59,8 @@ function displayLines() {
             }
         }
     };
-
     xhr.send();
+    loadFavorites();
 }
 
 /**
