@@ -72,7 +72,7 @@ function checkDb(apiUrl, path, res, test, type) {
         var dbo = db.db("mydb");
         dbo.collection("cache").find({mypath: path}).toArray(function (err, result) {
             //si on a la donnée en cache, on la récupère
-            if (result.length > 0) {
+            if (result.length > 0 && type !== "arrivals") {
                 var data = result[0].mydata;
                 res.end(data);
                 console.log("Donnée récupérée depuis le cache.");
