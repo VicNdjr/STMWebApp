@@ -1,8 +1,11 @@
 const call = require("./callsAPI");
-const http = require('http');
 const fs = require('fs');
 const express = require('express');
 const app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 //send js, css and images files
 app.use(express.static('../client'));
@@ -40,6 +43,18 @@ app.get("/positions/:route/:dir", function (req, res) {
     let direction = req.params.dir;
     call.fetchPositions(res, route, direction);
 });
+
+app.get("/favorites/:user", function (req, res) {
+    let user = req.params.user;
+    call.fetchFavorites(res, user);
+});
+
+app.put("/favorites/:user", function (req, res) {
+    let user = req.params.user;
+    let favorites = req.body;
+    call.addFavorite(res, user, favorites);
+});
+
 
 app.listen(8080, function () {
     // Print the link to ease access

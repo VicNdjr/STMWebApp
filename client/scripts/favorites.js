@@ -1,6 +1,24 @@
-// TODO: Commenter
-let favorites = [];
+let currentStop;
 let timeouts = [];
+let favorites = [];
+let xhr = new XMLHttpRequest();
+
+xhr.open('GET', 'http://localhost:8080/favorites/' + '01AQ42110');
+xhr.responseType = 'text';
+
+//ASYNCHRONE
+xhr.onreadystatechange = function () {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            if (xhr.responseText !== '') {
+                favorites = JSON.parse(xhr.responseText);
+            }
+        } else {
+            console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+        }
+    }
+};
+xhr.send();
 
 function display_fav() {
     document.getElementById("div-carte").style.display = "none";
@@ -12,6 +30,7 @@ function display_fav() {
 
 
 function tabs_fav() {
+    clearTimers();
     let id = "";
     document.getElementById("div-favoris").innerHTML = "";
     let stop;
@@ -51,7 +70,6 @@ function tabs_fav() {
                     document.getElementById("allStops").innerHTML =
                         'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
                 }
-
             }
         };
         xhr.send();
@@ -73,9 +91,9 @@ function delete_fav(stop) {
  * @param elementId
  */
 function displayFavorites(stop, elementId) {
-    fetchArrivals(stop, elementId);
+    fetchArrivals(stop, elementId, true);
     timeouts.push(setInterval(function () {
-        fetchArrivals(stop, elementId);
+        fetchArrivals(stop, elementId, true);
     }, 10000));
 }
 
@@ -108,9 +126,27 @@ function add_fav(stop) {
                 stop + '" onclick="add_fav(this.id)">&#10003;</button>';
         }
     } else {
-        document.getElementById(stop).outerHTML = '<button class="button-grey" id="' +
-            stop + '" onclick="add_fav(this.id)">+</button>';
+        let element = document.getElementById(stop);
+        if (element != null) {
+            element.outerHTML = '<button class="button-grey" id="' +
+                stop + '" onclick="add_fav(this.id)">+</button>';
+        }
     }
+
+    let json = JSON.stringify(favorites);
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", 'http://localhost:8080/favorites/' + '01AQ42110');
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onload = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+            }
+        }
+    };
+    xhr.send(json);
 }
 
 function is_fav(stop) {

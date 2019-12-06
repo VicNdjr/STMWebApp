@@ -3,6 +3,7 @@ let timer;
 let lines;
 let arrivals;
 let previousStops = {};
+let currentLine;
 
 /**
  * Fetch the data about all the bus lines and display it

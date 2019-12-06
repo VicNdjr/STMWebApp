@@ -82,6 +82,13 @@ function displayStops(lineId, dir) {
         }
         element.innerHTML += html;
     }
+    for (let i = 0; i < favorites.length; i++) {
+        let element = document.getElementById(favorites[i]);
+        if (element != null) {
+            element.outerHTML = '<button class="button-green" id="' +
+                favorites[i] + '" onclick="add_fav(this.id)">&#10003;</button>';
+        }
+    }
     affiche_carte2();
 }
 
@@ -92,9 +99,9 @@ function displayStops(lineId, dir) {
  */
 function displayTimer(stop, elementId) {
     if (isTimerActive === false) {
-        fetchArrivals(stop, elementId);
+        fetchArrivals(stop, elementId, false);
         timer = setInterval(function () {
-            fetchArrivals(stop, elementId);
+            fetchArrivals(stop, elementId, false);
         }, 10000);
         isTimerActive = true;
     } else {
@@ -108,8 +115,9 @@ function displayTimer(stop, elementId) {
  * Fetch the data about all the bus arrivals and store it in a variable
  * @param stop Id of the stop that was clicked
  * @param elementId
+ * @param fav
  */
-function fetchArrivals(stop, elementId) {
+function fetchArrivals(stop, elementId, fav) {
     const splitted = stop.split("-");
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:8080/arrivals/' + splitted[0] + '/' + splitted[1] + '/' + splitted[2]);
@@ -120,7 +128,7 @@ function fetchArrivals(stop, elementId) {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 arrivals = JSON.parse(xhr.responseText);
-                displayOneStop(stop, elementId);
+                displayOneStop(stop, elementId, fav);
             } else {
                 console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
                 document.getElementById(elementId).innerHTML = 'Une erreur s\'est produite. Nous n\'avons pas pu charger les arrêts.';
@@ -134,20 +142,39 @@ function fetchArrivals(stop, elementId) {
  * Display the stop and its timetable
  * @param stop Id of the stop that was clicked
  * @param elementId
+ * @param fav
  */
-function displayOneStop(stop, elementId) {
+function displayOneStop(stop, elementId, fav) {
     console.log("Rafraichissement des horaires de passage.");
     let name;
 
     // Get actual date and time
     const splitted = stop.split("-");
-    for (let i = 0; i < currentStop.length; i++) {
-        if (currentStop[i].id === splitted[2]) {
-            name = currentStop[i].name;
-        }
+    let lineId = splitted[0];
+    let dir = splitted[1];
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:8080/stops/' + lineId + '/' + dir);
+    xhr.responseType = 'text';
+    if (fav === false) {
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    let stopList = JSON.parse(xhr.responseText);
+                    for (let j = 0; j < stopList.length; j++) {
+                        if (stopList[j].id === splitted[2]) {
+                            name = stopList[j].name;
+                            // Display the name of the stop
+                            document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
+                        }
+                    }
+                } else {
+                    console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
+                }
+            }
+        };
+        xhr.send();
     }
-    // Display the name of the stop
-    document.getElementById("textChosenStop").innerHTML = "Prochains passages pour l'arrêt " + name;
 
     // Clear the html
     document.getElementById(elementId).innerHTML = '';
