@@ -45,7 +45,7 @@ function checkDb(apiUrl, path, res, test, type) {
             if (result.length > 0) {
                 var data = result[0].mydata;
                 res.end(data);
-                console.log("data récupérée");
+                console.log("Donnée récupérée depuis le cache.");
             } else { //sinon on fait le call à l'API
                 if (type == "lines") {
                     getData(apiUrl, path, res, test, dbo, timeLine);
@@ -69,7 +69,7 @@ function addToDb (path, data, dbo) {
     var newEntry = {mypath : path, mydata : data, user : "01AQ42110"};
     dbo.collection("cache").insertOne(newEntry, function(err, res) {
         if (err) throw err;
-        console.log("Data ajoutée !");
+        console.log("Nouvelle donnée ajoutée à la base de donnée !");
     });
 }
 
