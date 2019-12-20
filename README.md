@@ -30,4 +30,4 @@ D'autres fonctionnalités viennent compléter l'offre de service, telles que la 
 
 - Lorsque l'usager clique sur le bouton favoris, il peut consulter les horaires de ses arrêts favoris (limitation de 10 favoris). Il peut également supprimer un arrêt de ses favoris.
 
-<img src="favoris.png" high=600 width=600>
+<img src="fav.png" high=600 width=600>
