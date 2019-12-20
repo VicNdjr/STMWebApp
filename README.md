@@ -18,16 +18,16 @@ D'autres fonctionnalités viennent compléter l'offre de service, telles que la 
 
 - Menu déroulant présentant l'ensemble des lignes de bus classées par catégories. Lorsque l'usager séléctionne une ligne, celle-ci est tracée sur la carte.
 
-<img src="img_readme/carte.png" high=600 width=600>
+<img src="carte.png" high=600 width=600>
 
 ### Page horaires
 
 - Lorsque l'usager clique sur le bouton horaire, un tableau des arrêts de la ligne précédemment sélectionnée s'affiche. L'usager peut alors choisir un arrêt et consulter l'horaire des 10 prochains passages prévus pour cet arrêt compte tenu de l'heure actuelle. Il peut également ajouter l'arrêt à ses favoris.
 
-<img src="img_readme/horaires.png" high=600 width=600>
+<img src="horaires.png" high=600 width=600>
 
 ### Page favoris
 
 - Lorsque l'usager clique sur le bouton favoris, il peut consulter les horaires de ses arrêts favoris (limitation de 10 favoris). Il peut également supprimer un arrêt de ses favoris.
 
-<img src="img_readme/favoris.png" high=600 width=600>
+<img src="favoris.png" high=600 width=600>
